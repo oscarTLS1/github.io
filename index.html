@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexConnect - Tu Asesor Legal de Confianza</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        /* Definición de variables de color para LexConnect */
+        :root {
+            --primary-blue: #2C3E50; /* Azul oscuro elegante */
+            --primary-blue-light: #34495E; /* Azul ligeramente más claro para hover */
+            --accent-gold: #FFD700; /* Dorado para acentos y resaltar */
+            --text-dark: #212529; /* Negro para texto principal */
+            --text-medium: #495057; /* Gris oscuro para texto secundario */
+            --bg-light: #F8F9FA; /* Fondo muy claro */
+            --bg-medium: #E9ECEF; /* Fondo medio para secciones */
+            --ai-bubble-bg: #E0F2F7; /* Azul claro para burbujas IA */
+        }
+
+        body {
+            font-family: 'Merriweather', serif; /* Fuente con serifa para un toque clásico */
+            background-color: var(--bg-light);
+            color: var(--text-medium);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif; /* Fuente sans-serif para títulos modernos */
+            color: var(--text-dark);
+        }
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-blue-light);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        /* Nueva clase para el botón de "Agenda una Consulta" en el hero con diseño oscuro */
+        .btn-outline-dark {
+            background-color: transparent;
+            color: var(--text-dark); /* Texto negro */
+            border: 2px solid var(--text-dark); /* Borde negro */
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease, transform 0.2s ease;
+        }
+        .btn-outline-dark:hover {
+            background-color: var(--text-dark);
+            color: white; /* Texto blanco al pasar el ratón */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            background-color: #CBD5E1;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .dot.active {
+            background-color: var(--accent-gold);
+            transform: scale(1.2);
+        }
+        /* Animaciones */
+        .animate__animated.animate__delay-0-2s { animation-delay: 0.2s; }
+        .animate__animated.animate__delay-0-4s { animation-delay: 0.4s; }
+        .animate__animated.animate__delay-0-6s { animation-delay: 0.6s; }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 70vh; /* Ajuste para que ocupe un porcentaje del viewport height */
+            max-height: 80vh; /* Máxima altura para evitar desbordamiento en pantallas pequeñas */
+        }
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            scroll-behavior: smooth;
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid #E2E8F0;
+            background-color: var(--bg-medium);
+        }
+        .chat-input {
+            flex-grow: 1;
+            border: 1px solid #CBD5E1;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .chat-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.2);
+        }
+        .chat-send-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-left: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .chat-send-btn:hover {
+            background-color: var(--primary-blue-light);
+            transform: translateY(-1px);
+        }
+        .message-bubble {
+            max-width: 75%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            line-height: 1.5;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .ai-message {
+            background-color: var(--ai-bubble-bg);
+            align-self: flex-start;
+            text-align: left;
+            color: var(--text-dark);
+        }
+        .user-message {
+            background-color: var(--primary-blue);
+            color: white;
+            align-self: flex-end;
+        }
+
+        /* Estilos para el contenido de la IA */
+        .ai-message h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-blue);
+        }
+        .ai-message h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-dark);
+        }
+        .ai-message h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-top: 0.6rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-medium);
+        }
+        .ai-message p {
+            margin-bottom: 0.5rem;
+        }
+        .ai-message ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+        .ai-message ol {
+            list-style-type: decimal;
+            margin-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+        .ai-message li {
+            margin-bottom: 0.25rem;
+        }
+        .ai-message strong {
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        /* Carrusel principal (Hero) */
+        .hero-carousel-slide {
+            flex: 0 0 100%;
+            position: relative;
+            height: 500px; /* Mayor altura para un impacto visual */
+            overflow: hidden;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .hero-carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.5); /* Oscurecer más la imagen para texto en blanco */
+        }
+        .hero-carousel-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 1rem;
+            width: 90%;
+        }
+        .hero-carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .hero-carousel-dots .dot {
+            background-color: #E2E8F0;
+            margin: 0 6px;
+        }
+        .dot.active {
+            background-color: var(--accent-gold);
+        }
+
+        /* Botón flotante de WhatsApp */
+        .whatsapp-float-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .whatsapp-float-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Animación de pulso */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .whatsapp-float-btn.pulse {
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        /* Tooltip para el botón de WhatsApp */
+        .whatsapp-tooltip {
+            visibility: hidden;
+            width: 180px;
+            background-color: var(--primary-blue);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 0;
+            position: absolute;
+            z-index: 1;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .whatsapp-float-btn:hover .whatsapp-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Estilos para el menú móvil */
+        #mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Empieza fuera de la pantalla */
+            width: 80%; /* Ancho del menú */
+            max-width: 300px; /* Ancho máximo para pantallas un poco más grandes */
+            height: 100%;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transition: right 0.3s ease-in-out; /* Transición suave para el deslizamiento */
+            padding-top: 4rem; /* Espacio para el botón de cerrar */
+            overflow-y: auto; /* Para que el contenido sea scrollable si es muy largo */
+        }
+
+        #mobile-menu.open {
+            right: 0; /* Desliza hacia la derecha para mostrar */
+        }
+
+        #mobile-menu .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        #mobile-menu .close-button:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Dropdown menu styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            top: calc(100% + 10px); /* Position below the Services link */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dropdown-content a {
+            color: var(--text-dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--bg-medium);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Style for active dropdown indicator (optional) */
+        .dropdown-toggle.active {
+            color: var(--primary-blue);
+        }
+
+        /* Mobile Dropdown Specific Styles */
+        .mobile-nav-dropdown {
+            position: relative;
+        }
+
+        .mobile-nav-dropdown-content {
+            display: none; /* Hidden by default */
+            background-color: #f1f1f1; /* Lighter background for nested menu */
+            min-width: 100%;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); /* Inner shadow */
+            z-index: 1;
+        }
+
+        .mobile-nav-dropdown-content a {
+            padding: 10px 24px; /* Slightly more padding for nested items */
+            color: var(--text-dark);
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease;
+        }
+
+        .mobile-nav-dropdown-content a:hover {
+            background-color: #e2e2e2;
+        }
+
+        .mobile-nav-dropdown.open .mobile-nav-dropdown-content {
+            display: block; /* Show when parent is 'open' */
+        }
+
+        .mobile-nav-dropdown-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .mobile-nav-dropdown-toggle i.ph-caret-down {
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-nav-dropdown-toggle.active i.ph-caret-down {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md py-4">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-extrabold text-primary-blue flex items-center gap-2">
+                <i class="ph-bold ph-scales text-4xl text-accent-gold"></i> LexConnect
+            </a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#inicio" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Inicio</a>
+                
+                <!-- Dropdown for Servicios -->
+                <div class="dropdown">
+                    <a href="#servicios" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg dropdown-toggle" id="servicesDropdownToggle">
+                        Servicios <i class="ph-bold ph-caret-down text-base ml-1"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="#servicios" onclick="scrollToService('Derecho Civil y Contratos')">Derecho Civil y Contratos</a>
+                        <a href="#servicios" onclick="scrollToService('Derecho Comercial y Corporativo')">Derecho Comercial y Corporativo</a>
+                        <a href="#servicios" onclick="scrollToService('Derecho Penal')">Derecho Penal</a>
+                        <a href="#servicios" onclick="scrollToService('Derecho Laboral')">Derecho Laboral</a>
+                        <a href="#servicios" onclick="scrollToService('Derecho Inmobiliario')">Derecho Inmobiliario</a>
+                        <a href="#servicios" onclick="scrollToService('Derecho Educativo')">Derecho Educativo</a>
+                    </div>
+                </div>
+
+                <a href="#ia" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">IA Legal</a>
+                <a href="#estudiantes" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Estudiantes</a>
+                <a href="#nosotros" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Nosotros</a>
+                <a href="#contacto" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Contacto</a>
+                <!-- El botón "Accede a nuestra IA" ha sido movido a la sección hero -->
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                    <i class="ph-bold ph-list text-3xl"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-2 shadow-sm">
+            <button id="mobile-menu-close-button" class="close-button">
+                <i class="ph-bold ph-x"></i>
+            </button>
+            
+            <!-- Mobile Navigation Dropdown -->
+            <div class="mobile-nav-dropdown">
+                <a href="#" class="block px-4 py-3 text-gray-800 hover:bg-bg-medium font-medium mobile-menu-item mobile-nav-dropdown-toggle" id="mobileNavDropdownToggle">
+                    Menú <i class="ph-bold ph-caret-down text-base ml-1"></i>
+                </a>
+                <div class="mobile-nav-dropdown-content">
+                    <a href="#inicio" class="mobile-menu-item block px-6 py-2 text-gray-800 hover:bg-bg-medium font-medium">Inicio</a>
+                    
+                    <!-- Mobile Services Sub-Dropdown -->
+                    <div class="mobile-nav-dropdown">
+                        <a href="#servicios" class="block px-6 py-2 text-gray-800 hover:bg-bg-medium font-medium mobile-menu-item mobile-nav-dropdown-toggle" id="mobileServicesSubDropdownToggle">
+                            Servicios <i class="ph-bold ph-caret-down text-base ml-1"></i>
+                        </a>
+                        <div class="mobile-nav-dropdown-content">
+                            <a href="#servicios" onclick="scrollToService('Derecho Civil y Contratos')" class="block px-8 py-2 text-gray-700 hover:bg-bg-medium">Derecho Civil y Contratos</a>
+                            <a href="#servicios" onclick="scrollToService('Derecho Comercial y Corporativo')" class="block px-8 py-2 text-gray-700 hover:bg-bg-medium">Derecho Comercial y Corporativo</a>
+                            <a href="#servicios" onclick="scrollToService('Derecho Penal')" class="block px-8 py-2 text-gray-700 hover:bg-bg-medium">Derecho Penal</a>
+                            <a href="#servicios" onclick="scrollToService('Derecho Laboral')" class="block px-8 py-2 text-gray-700 hover:bg-bg-medium">Derecho Laboral</a>
+                            <a href="#servicios" onclick="scrollToService('Derecho Inmobiliario')" class="block px-8 py-2 text-gray-700 hover:bg-bg-medium">Derecho Inmobiliario</a>
+                            <a href="#servicios" onclick="scrollToService('Derecho Educativo')" class="block px-8 py-2 text-gray-700 hover:bg-bg-medium">Derecho Educativo</a>
+                        </div>
+                    </div>
+
+                    <a href="#ia" class="mobile-menu-item block px-6 py-2 text-gray-800 hover:bg-bg-medium font-medium">IA Legal</a>
+                    <a href="#estudiantes" class="mobile-menu-item block px-6 py-2 text-gray-800 hover:bg-bg-medium font-medium">Estudiantes</a>
+                    <a href="#nosotros" class="mobile-menu-item block px-6 py-2 text-gray-800 hover:bg-bg-medium font-medium">Nosotros</a>
+                    <a href="#contacto" class="mobile-menu-item block px-6 py-2 text-gray-800 hover:bg-bg-medium font-medium">Contacto</a>
+                    <!-- El botón "Accede a nuestra IA" ha sido movido a la sección hero -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="bg-gradient-to-br from-primary-blue to-primary-blue-light text-white py-24 px-4 relative overflow-hidden">
+            <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('https://img.freepik.com/free-photo/urban-architectural-design-steel-structure_1339-4443.jpg?w=1380&t=st=1716147424~exp=1716148024~hm=17387a2d8e404b90176d654f1dd72605f6e80b43521d9600a0210f92d83b4845');"></div>
+            <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+                <!-- Estas animaciones se mantienen al cargar la página -->
+                <div class="md:w-1/2 text-center md:text-left animate__animated animate__fadeInLeft">
+                    <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg">
+                        <span class="text-accent-gold">LexConnect:</span> Tu Guía Legal Confiable
+                    </h1>
+                    <!-- Texto de la sección de inicio ahora en color negro para mayor impacto -->
+                    <p class="text-xl md:text-2xl mb-10 text-text-dark leading-relaxed">
+                        Expertos en derecho, comprometidos con tu tranquilidad. Ofrecemos soluciones legales personalizadas y eficientes.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-5 mb-16">
+                        <!-- Nuevo botón para acceder a Lexi.html, colocado antes de "Conoce Nuestros Servicios" -->
+                        <a href="LEXi.html" class="btn-primary text-lg flex items-center justify-center gap-2">
+                            Accede a nuestra IA <i class="ph-bold ph-robot text-xl"></i>
+                        </a>
+                        <a href="#servicios" class="btn-primary flex items-center justify-center gap-2">
+                            Conoce Nuestros Servicios <i class="ph-bold ph-arrow-right text-xl"></i>
+                        </a>
+                        <!-- Botón "Agenda una Consulta" con texto y borde negros -->
+                        <a href="#contacto" class="btn-outline-dark flex items-center justify-center gap-2">
+                            Agenda una Consulta <i class="ph-bold ph-arrow-right text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center animate__animated animate__fadeInRight animate__delay-0-4s">
+                    <div class="relative w-full max-w-xl mx-auto overflow-hidden rounded-xl shadow-2xl">
+                        <div id="heroCarouselContainer" class="flex transition-transform duration-700 ease-in-out">
+                            <div class="hero-carousel-slide">
+                                <img src="https://img.freepik.com/free-photo/group-diverse-people-having-business-meeting_53876-13486.jpg?w=1060&t=st=1716147604~exp=1716148204~hm=2d3080e439600a75c1c4f0f62d854ef22822a55097486e10034a106f33d7b9d6" alt="Grupo de personas en una reunión de negocios">
+                                <div class="hero-carousel-text">
+                                    Asesoría Legal Personalizada
+                                </div>
+                            </div>
+                            <div class="hero-carousel-slide">
+                                <img src="https://img.freepik.com/free-photo/businessman-hand-holding-pen-pointing-document-signing-contract-paper_1423-149.jpg?w=1380&t=st=1716147683~exp=1716148283~hm=17277259f6d4d14210d33e5066a3d6d061f03f56f4d2325c3411a7a0011ec717" alt="Mano de un empresario firmando un contrato">
+                                <div class="hero-carousel-text">
+                                    Defensa Sólida en Casos Judiciales
+                                </div>
+                            </div>
+                            <div class="hero-carousel-slide">
+                                <img src="https://img.freepik.com/free-photo/business-concept-with-tablet-financial-chart_1134-706.jpg?w=1060&t=st=1716147717~exp=1716148317~hm=9003666d901a884ef64f7b607ce1e1d322ffc3240212f4553b47f4f46ff36f23" alt="Concepto de negocio con tablet y gráfico financiero">
+                                <div class="hero-carousel-text">
+                                    Consultoría para Empresas y Negocios
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="heroCarouselDots" class="hero-carousel-dots absolute bottom-6"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="py-20 px-4 bg-bg-medium">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-16 text-text-dark" data-animate-on-scroll="true" data-animation-class="animate__fadeInDown">Nuestros Servicios Legales Integrales</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Cada tarjeta de servicio ahora tiene data-animate-on-scroll -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center transform transition-transform hover:scale-105 hover:shadow-xl" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" id="Derecho Civil y Contratos">
+                        <div class="p-5 bg-primary-blue rounded-full mb-6 text-white shadow-lg">
+                            <i class="ph-bold ph-briefcase-metal text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-text-dark">Derecho Civil y Contratos</h3>
+                        <p class="text-text-medium leading-relaxed text-lg">Asesoría y representación en contratos, propiedades, herencias y conflictos personales.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center transform transition-transform hover:scale-105 hover:shadow-xl" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.2s" id="Derecho Comercial y Corporativo">
+                        <div class="p-5 bg-primary-blue rounded-full mb-6 text-white shadow-lg">
+                            <i class="ph-bold ph-bank text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-text-dark">Derecho Comercial y Corporativo</h3>
+                        <p class="text-text-medium leading-relaxed text-lg">Constitución de empresas, fusiones, adquisiciones y litigios mercantiles.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center transform transition-transform hover:scale-105 hover:shadow-xl" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.4s" id="Derecho Penal">
+                        <div class="p-5 bg-primary-blue rounded-full mb-6 text-white shadow-lg">
+                            <i class="ph-bold ph-police-car text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-text-dark">Derecho Penal</h3>
+                        <p class="text-text-medium leading-relaxed text-lg">Defensa y representación legal en procesos penales, garantizando tus derechos.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center transform transition-transform hover:scale-105 hover:shadow-xl" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.6s" id="Derecho Laboral">
+                        <div class="p-5 bg-primary-blue rounded-full mb-6 text-white shadow-lg">
+                            <i class="ph-bold ph-users-three text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-text-dark">Derecho Laboral</h3>
+                        <p class="text-text-medium leading-relaxed text-lg">Asesoría en contratos de trabajo, despidos, seguridad social y conflictos laborales.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center transform transition-transform hover:scale-105 hover:shadow-xl" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.8s" id="Derecho Inmobiliario">
+                        <div class="p-5 bg-primary-blue rounded-full mb-6 text-white shadow-lg">
+                            <i class="ph-bold ph-house text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-text-dark">Derecho Inmobiliario</h3>
+                        <p class="text-text-medium leading-relaxed text-lg">Gestión de compraventa, arrendamientos, litigios de propiedad y urbanismo.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center transform transition-transform hover:scale-105 hover:shadow-xl" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="1s" id="Derecho Educativo">
+                        <div class="p-5 bg-primary-blue rounded-full mb-6 text-white shadow-lg">
+                            <i class="ph-bold ph-graduation-cap text-4xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-text-dark">Derecho Educativo</h3>
+                        <p class="text-text-medium leading-relaxed text-lg">Asesoría a instituciones educativas y estudiantes en normativas y procesos disciplinarios.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ia" class="py-20 px-4 bg-white" data-animate-on-scroll="true" data-animation-class="animate__fadeIn">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-12 text-text-dark">Lexi: Tu Asistente Legal de IA Personal</h2>
+                <p class="text-lg text-text-medium mb-10 max-w-3xl mx-auto leading-relaxed">
+                    Nuestra inteligencia artificial, **Lexi**, está entrenada para responder a tus preguntas legales más comunes, brindarte información preliminar y orientarte sobre los pasos a seguir.
+                    ¡Pruébala!
+                </p>
+
+                <div class="chat-container">
+                    <div id="chatMessages" class="chat-messages">
+                        <div class="message-bubble ai-message">
+                            ¡Hola! Soy Lexi, tu asistente legal de Iexconnect. ¿En qué puedo ayudarte hoy? Por favor, ten en cuenta que mi función es proporcionar información general y no constituyo asesoría legal definitiva. Para un caso específico, te recomiendo consultar directamente con un abogado de LexConnect, ¡contáctanos vía Whatsapp!
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chatInput" class="chat-input" placeholder="Ej: ¿Qué documentos necesito para un contrato de arrendamiento?">
+                        <button id="sendButton" class="chat-send-btn">
+                            Enviar <i class="ph-bold ph-paper-plane-tilt text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva Sección para Estudiantes -->
+        <section id="estudiantes" class="py-20 px-4 bg-bg-medium" data-animate-on-scroll="true" data-animation-class="animate__fadeIn">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-12 text-text-dark">Sección para Estudiantes</h2>
+                <p class="text-lg text-text-medium mb-10 max-w-3xl mx-auto leading-relaxed">
+                    Recursos exclusivos para estudiantes de derecho: material de estudio, cursos especializados y minutas modelo para tu formación académica y profesional.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center gap-8 mt-10">
+                    <a href="cursos.html" class="btn-primary flex items-center justify-center gap-2 text-xl py-3 px-6" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.2s">
+                        <i class="ph-bold ph-book-open text-2xl"></i> Cursos
+                    </a>
+                    <a href="material-estudio.html" class="btn-primary flex items-center justify-center gap-2 text-xl py-3 px-6" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.4s">
+                        <i class="ph-bold ph-file-text text-2xl"></i> Material de Estudio
+                    </a>
+                    <a href="minutas.html" class="btn-primary flex items-center justify-center gap-2 text-xl py-3 px-6" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.6s">
+                        <i class="ph-bold ph-pencil-line text-2xl"></i> Minutas
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="nosotros" class="py-20 px-4 bg-bg-medium" data-animate-on-scroll="true" data-animation-class="animate__fadeIn">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-16 text-text-dark">Quiénes Somos en LexConnect</h2>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                    <div class="md:w-1/2" data-animate-on-scroll="true" data-animation-class="animate__fadeInLeft" data-animation-delay="0.2s">
+                        <img src="https://img.freepik.com/free-photo/diverse-group-professionals-discussing-project_1098-17188.jpg?w=1060&t=st=1716147915~exp=1716148515~hm=233e70d4f3b7d1e8d19794303487c674268e37d58a1f496105c317f226a35043" alt="Grupo de profesionales discutiendo un proyecto">
+                    </div>
+                    <div class="md:w-1/2 text-left" data-animate-on-scroll="true" data-animation-class="animate__fadeInRight" data-animation-delay="0.4s">
+                        <p class="text-lg text-text-medium leading-relaxed mb-6">
+                            En LexConnect, somos un equipo de abogados apasionados y altamente calificados, dedicados a brindar asesoría legal de excelencia y representación efectiva. Nuestra misión es simplificar el complejo mundo legal para nuestros clientes, ofreciendo claridad, soluciones estratégicas y un acompañamiento constante.
+                        </p>
+                        <p class="text-lg text-text-medium leading-relaxed mb-6">
+                            Creemos en la justicia, la ética y la transparencia. Cada caso es único, y por eso nos esforzamos por entender a fondo tus necesidades para construir la mejor estrategia legal posible.
+                        </p>
+                        <ul class="list-disc list-inside text-lg text-text-dark space-y-2 mb-8">
+                            <li><strong class="text-primary-blue">Experiencia Comprobada:</strong> Años de Diversas ramas del derecho.</li>
+                            <li><strong class="text-primary-blue">Atención Personalizada y confidencial:</strong> Tu caso es nuestra prioridad.</li>
+                            <li><strong class="text-primary-blue">Innovación Legal:</strong> Integrando tecnología para un servicio más eficiente.</li>
+                        </ul>
+                        <a href="#contacto" class="btn-primary flex items-center w-fit gap-2">
+                            Conoce a Nuestro Equipo <i class="ph-bold ph-users-three text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonios" class="py-20 px-4 bg-white" data-animate-on-scroll="true" data-animation-class="animate__fadeIn">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-12 text-text-dark">Voces de Nuestros Clientes Satisfechos</h2>
+                <div class="relative w-full max-w-4xl mx-auto">
+                    <div id="testimonialsCarousel" class="overflow-hidden rounded-xl shadow-2xl">
+                        <div class="flex transition-transform duration-500 ease-in-out" id="testimonialsContainer">
+                            <!-- Testimonial 1 - Ahora con fondo blanco y texto oscuro -->
+                            <div class="testimonial flex-shrink-0 w-full p-10 bg-white flex flex-col items-center text-center">
+                                <img src="https://randomuser.me/api/portraits/men/82.jpg" alt="Foto de perfil de Andrés Felipe R." class="w-28 h-28 rounded-full object-cover mb-6 border-4 border-accent-gold shadow-md" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp">
+                                <p class="text-xl italic leading-relaxed mb-6 text-text-dark">"LexConnect superó mis expectativas. Su asesoría fue clave en mi caso de derecho civil. Son profesionales, eficientes y realmente se preocupan por sus clientes."</p>
+                                <p class="font-bold text-accent-gold text-lg">- Andrés Felipe R., Cliente de Derecho Civil</p>
+                            </div>
+                            <!-- Testimonial 2 - Ahora con fondo blanco y texto oscuro -->
+                            <div class="testimonial flex-shrink-0 w-full p-10 bg-white flex flex-col items-center text-center">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Foto de perfil de Sofía G." class="w-28 h-28 rounded-full object-cover mb-6 border-4 border-accent-gold shadow-md" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.2s">
+                                <p class="text-xl italic leading-relaxed mb-6 text-text-dark">"La consultoría comercial de LexConnect fue fundamental para mi empresa. Su equipo es muy conocedor y me brindaron soluciones prácticas."</p>
+                                <p class="font-bold text-accent-gold text-lg">- Sofía G., Empresaria</p>
+                            </div>
+                            <!-- Testimonial 3 - Mantiene el fondo blanco y texto oscuro -->
+                            <div class="testimonial flex-shrink-0 w-full p-10 bg-white flex flex-col items-center text-center">
+                                <img src="https://randomuser.me/api/portraits/men/50.jpg" alt="Foto de perfil de Ricardo V." class="w-28 h-28 rounded-full object-cover mb-6 border-4 border-accent-gold shadow-md" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.4s">
+                                <p class="text-xl italic leading-relaxed mb-6 text-text-dark">"Lexi, la IA, es un recurso increíble. Me ayudó a aclarar dudas rápidas antes de mi consulta. ¡Un gran valor añadido!"</p>
+                                <p class="font-bold text-accent-gold text-lg">- Ricardo V., Usuario de Lexi IA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="testimonialDots" class="flex justify-center mt-8"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="py-20 px-4 bg-bg-medium" data-animate-on-scroll="true" data-animation-class="animate__fadeIn">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-12 text-text-dark">Conéctate con LexConnect</h2>
+                <p class="text-lg text-text-medium mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Estamos aquí para resolver tus inquietudes legales. Contáctanos para agendar una consulta o si tienes alguna pregunta.
+                </p>
+
+                <div class="max-w-2xl mx-auto bg-white p-10 rounded-xl shadow-2xl">
+                    <form id="contactForm" action="#" method="POST" class="space-y-7">
+                        <div>
+                            <label for="name" class="block text-left text-lg font-semibold text-text-dark mb-2">Nombre Completo</label>
+                            <input type="text" id="name" name="name" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue transition-all text-lg" placeholder="Tu nombre y apellido" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-left text-lg font-semibold text-text-dark mb-2">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue transition-all text-lg" placeholder="tu.correo@ejemplo.com" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-left text-lg font-semibold text-text-dark mb-2">Número de Teléfono (Opcional)</label>
+                            <input type="tel" id="phone" name="phone" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue transition-all text-lg" placeholder="+57 3002345433">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-left text-lg font-semibold text-text-dark mb-2">Tu Mensaje o Consulta</label>
+                            <textarea id="message" name="message" rows="6" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue transition-all text-lg" placeholder="Cuéntanos brevemente tu necesidad legal..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-3 text-xl py-3">
+                            Enviar Consulta <i class="ph-bold ph-paper-plane-right text-2xl"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="mt-16 flex flex-col md:flex-row justify-center items-center gap-8 text-xl text-text-dark">
+                    <div class="flex items-center gap-3" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.2s">
+                        <i class="ph-bold ph-phone text-primary-blue text-3xl"></i>
+                        <span>+57 3108589818</span>
+                    </div>
+                    <div class="flex items-center gap-3" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.4s">
+                        <i class="ph-bold ph-envelope-simple text-primary-blue text-3xl"></i>
+                        <span>contacto@lexconnect.com</span>
+                    </div>
+                    <div class="flex items-center gap-3" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp" data-animation-delay="0.6s">
+                        <i class="ph-bold ph-map-pin text-primary-blue text-3xl"></i>
+                        <span>Tunja- Colombia</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 px-4 shadow-inner" data-animate-on-scroll="true" data-animation-class="animate__fadeInUp">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10 text-center md:text-left">
+            <!-- Sección del Logo y Descripción -->
+            <div class="md:col-span-1 flex flex-col items-center md:items-start">
+                <a href="#" class="text-4xl font-extrabold flex items-center gap-2 mb-4">
+                    <i class="ph-bold ph-scales text-5xl text-accent-gold"></i>
+                    <span class="text-white">LexConnect</span>
+                </a>
+                <p class="text-gray-100 text-lg leading-relaxed mb-4">
+                    Tu asesor legal de confianza. Simplificando el derecho para tu tranquilidad y éxito.
+                </p>
+                <div class="flex gap-5 mt-4">
+                    <a href="https://www.linkedin.com/company/lexconnect" target="_blank" class="text-gray-100 hover:text-accent-gold transition-colors text-3xl transform hover:scale-110">
+                        <i class="ph-bold ph-linkedin-logo"></i>
+                    </a>
+                    <a href="https://www.facebook.com/lexconnect" target="_blank" class="text-gray-100 hover:text-accent-gold transition-colors text-3xl transform hover:scale-110">
+                        <i class="ph-bold ph-facebook-logo"></i>
+                    </a>
+                    <a href="https://www.instagram.com/oscar_sierra_2921/" target="_blank" class="text-gray-100 hover:text-accent-gold transition-colors text-3xl transform hover:scale-110">
+                        <i class="ph-bold ph-instagram-logo"></i>
+                    </a>
+                    <!-- Enlace al desarrollador -->
+                    <a href="https://www.instagram.com/oscar_sierra_2921/" target="_blank" class="text-gray-100 hover:text-accent-gold transition-colors text-3xl transform hover:scale-110">
+                        <i class="ph-bold ph-user-circle"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sección de Enlaces Rápidos -->
+            <div class="md:col-span-1 lg:col-span-1">
+                <h3 class="text-2xl font-bold text-white mb-6">Enlaces Rápidos</h3>
+                <ul class="space-y-3">
+                    <li><a href="#inicio" class="text-gray-100 hover:text-white transition-colors text-lg">Inicio</a></li>
+                    <li><a href="#servicios" class="text-gray-100 hover:text-white transition-colors text-lg">Servicios</a></li>
+                    <li><a href="#ia" class="text-gray-100 hover:text-white transition-colors text-lg">IA Legal</a></li>
+                    <li><a href="#estudiantes" class="text-gray-100 hover:text-white transition-colors text-lg">Estudiantes</a></li>
+                    <li><a href="#nosotros" class="text-gray-100 hover:text-white transition-colors text-lg">Nosotros</a></li>
+                    <li><a href="#contacto" class="text-gray-100 hover:text-white transition-colors text-lg">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Sección de Contacto -->
+            <div class="md:col-span-1 lg:col-span-1">
+                <h3 class="text-2xl font-bold text-white mb-6">Contáctanos</h3>
+                <ul class="space-y-3 text-lg">
+                    <li class="flex items-center justify-center md:justify-start gap-3">
+                        <i class="ph-bold ph-phone text-2xl text-gray-100"></i>
+                        <span>+57 3108589818</span>
+                    </li>
+                    <li class="flex items-center justify-center md:justify-start gap-3">
+                        <i class="ph-bold ph-envelope-simple text-2xl text-gray-100"></i>
+                        <span>contacto@lexconnect.com</span>
+                    </li>
+                    <li class="flex items-center justify-center md:justify-start gap-3">
+                        <i class="ph-bold ph-map-pin text-2xl text-gray-100"></i>
+                        <span>Tunja- Colombia</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sección de Políticas y Términos -->
+            <div class="md:col-span-3 lg:col-span-1 flex flex-col items-center md:items-start lg:items-end">
+                <h3 class="text-2xl font-bold text-white mb-6">Información Legal</h3>
+                <ul class="space-y-3 text-lg">
+                    <li><a href="#" class="text-gray-100 hover:text-white transition-colors">Política de Privacidad</a></li>
+                    <li><a href="#" class="text-gray-100 hover:text-white transition-colors">Términos del Servicio</a></li>
+                    <li><a href="#" class="text-gray-100 hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-700 mt-10 pt-8 text-center">
+            <p class="text-gray-400 text-md">&copy; 2025 LexConnect. Todos los derechos reservados. Diseñado y desarrollado con pasión por la justicia.</p>
+            <p class="text-gray-400 text-md mt-2">Desarrollado por: <a href="https://www.instagram.com/oscar_sierra_2921/" target="_blank" class="text-gray-100 hover:text-accent-gold transition-colors font-semibold">Oscar Sierra</a></p>
+        </div>
+    </footer>
+
+    <!-- Custom Modal for Messages -->
+    <div id="customModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden z-[9999]">
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm mx-auto">
+            <h3 id="modalTitle" class="text-2xl font-bold mb-4 text-primary-blue"></h3>
+            <p id="modalMessage" class="text-lg text-text-medium mb-6"></p>
+            <button id="modalCloseBtn" class="btn-primary">Aceptar</button>
+        </div>
+    </div>
+
+    <a href="https://wa.me/573108589818?text=Hola!%20Me%20gustaría%20saber%20más%20sobre%20los%20servicios%20legales%20de%20LexConnect." target="_blank" class="whatsapp-float-btn pulse">
+        <i class="ph-bold ph-whatsapp-logo"></i>
+        <span class="whatsapp-tooltip text-sm">¡Contáctanos por WhatsApp!</span>
+    </a>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        // Menú móvil
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+        const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+        
+        // Main Mobile Navigation Dropdown
+        const mobileNavDropdownToggle = document.getElementById('mobileNavDropdownToggle');
+        const mobileNavDropdownContent = document.querySelector('.mobile-nav-dropdown-content');
+
+        // Services Sub-Dropdown inside Mobile Navigation
+        const mobileServicesSubDropdownToggle = document.getElementById('mobileServicesSubDropdownToggle');
+        const mobileServicesSubDropdownContent = document.querySelector('#mobileServicesSubDropdownToggle').nextElementSibling;
+
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('open'); // Abre el menú
+        });
+
+        mobileMenuCloseButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('open'); // Cierra el menú
+            // Ensure all mobile dropdowns are closed when the main menu closes
+            mobileNavDropdownContent.classList.remove('open');
+            mobileServicesSubDropdownContent.classList.remove('open');
+            mobileNavDropdownToggle.classList.remove('active');
+            mobileServicesSubDropdownToggle.classList.remove('active');
+        });
+
+        mobileMenuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Ensure dropdown content is not the target of the click when closing the menu
+                if (!item.closest('.mobile-nav-dropdown-content')) {
+                    mobileMenu.classList.remove('open'); // Cierra el menú al hacer clic en un elemento
+                    // Also close any open dropdowns within the mobile menu
+                    mobileNavDropdownContent.classList.remove('open');
+                    mobileServicesSubDropdownContent.classList.remove('open');
+                    mobileNavDropdownToggle.classList.remove('active');
+                    mobileServicesSubDropdownToggle.classList.remove('active');
+                }
+            });
+        });
+
+        // Toggle main mobile navigation dropdown
+        if (mobileNavDropdownToggle) {
+            mobileNavDropdownToggle.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+                mobileNavDropdownContent.classList.toggle('open');
+                mobileNavDropdownToggle.classList.toggle('active');
+            });
+        }
+
+        // Toggle mobile services sub-dropdown
+        if (mobileServicesSubDropdownToggle) {
+            mobileServicesSubDropdownToggle.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+                event.stopPropagation(); // Prevent parent dropdown from closing
+                mobileServicesSubDropdownContent.classList.toggle('open');
+                mobileServicesSubDropdownToggle.classList.toggle('active');
+            });
+        }
+
+        // Scroll to specific service within the #servicios section
+        function scrollToService(serviceId) {
+            const serviceElement = document.getElementById(serviceId);
+            if (serviceElement) {
+                serviceElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            // Close mobile menu if it's open after clicking a service link
+            if (mobileMenu.classList.contains('open')) {
+                mobileMenu.classList.remove('open');
+                mobileNavDropdownContent.classList.remove('open'); // Close main dropdown
+                mobileServicesSubDropdownContent.classList.remove('open'); // Close services sub-dropdown
+                mobileNavDropdownToggle.classList.remove('active');
+                mobileServicesSubDropdownToggle.classList.remove('active');
+            }
+        }
+
+
+        // Chat de IA
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const chatMessages = document.getElementById('chatMessages');
+
+        // INITIAL CONFIGURATION AND API
+        const apiKey = "AIzaSyBzGvM2L1t0LC1cqQFK_mVixhCvW0Zwq3M"; // API key provided by Canvas runtime
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        let chatHistory = []; // Initialize chat history outside the function
+
+        // Función para mostrar modal personalizado
+        function showCustomModal(title, message, isSuccess) {
+            const modal = document.getElementById('customModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            if (isSuccess) {
+                modalTitle.classList.remove('text-red-600');
+                modalTitle.classList.add('text-primary-blue');
+            } else {
+                modalTitle.classList.remove('text-primary-blue');
+                modalTitle.classList.add('text-red-600');
+            }
+
+            modal.classList.remove('hidden'); // Show modal
+
+            modalCloseBtn.onclick = () => {
+                modal.classList.add('hidden'); // Hide modal on click
+            };
+        }
+
+        // Función para formatear el texto de Markdown a HTML (mejorada)
+        function formatMarkdownToHtml(markdownText) {
+            let htmlText = markdownText;
+
+            // Negritas: **texto** o __texto__
+            htmlText = htmlText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            htmlText = htmlText.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+            // Cursiva: *texto* o _texto_
+            htmlText = htmlText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            htmlText = htmlText.replace(/_(.*?)_/g, '<em>$1</em>');
+
+            // Títulos y subtítulos (asegurarse de que estén al principio de la línea)
+            htmlText = htmlText.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            htmlText = htmlText.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            htmlText = htmlText.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+
+            // Convertir líneas con * o - al inicio en elementos <li>
+            // Es importante hacerlo antes de envolver en <ul>/<ol>
+            const lines = htmlText.split('\n');
+            let inUnorderedList = false;
+            let inOrderedList = false;
+            let formattedLines = [];
+
+            lines.forEach(line => {
+                const trimmedLine = line.trim();
+                // Lista desordenada
+                if (trimmedLine.match(/^[\*-]\s/)) {
+                    if (!inUnorderedList) {
+                        if (inOrderedList) {
+                            formattedLines.push('</ol>');
+                            inOrderedList = false;
+                        }
+                        formattedLines.push('<ul>');
+                        inUnorderedList = true;
+                    }
+                    formattedLines.push(`<li>${trimmedLine.substring(trimmedLine.indexOf(' ') + 1)}</li>`);
+                }
+                // Lista ordenada
+                else if (trimmedLine.match(/^\d+\.\s/)) {
+                    if (!inOrderedList) {
+                        if (inUnorderedList) {
+                            formattedLines.push('</ul>');
+                            inUnorderedList = false;
+                        }
+                        formattedLines.push('<ol>');
+                        inOrderedList = true;
+                    }
+                    formattedLines.push(`<li>${trimmedLine.substring(trimmedLine.indexOf(' ') + 1)}</li>`);
+                }
+                // Párrafos y otros contenidos
+                else {
+                    if (inUnorderedList) {
+                        formattedLines.push('</ul>');
+                        inUnorderedList = false;
+                    }
+                    if (inOrderedList) {
+                        formattedLines.push('</ol>');
+                        inOrderedList = false;
+                    }
+                    if (trimmedLine === '') {
+                        formattedLines.push(''); // Mantener saltos de línea para párrafos
+                    } else {
+                        // Si la línea ya es un encabezado, no la envuelva en p
+                        if (!trimmedLine.match(/^(<h1>|<h2>|<h3>)/)) {
+                            formattedLines.push(`<p>${trimmedLine}</p>`);
+                        } else {
+                            formattedLines.push(trimmedLine);
+                        }
+                    }
+                }
+            });
+
+            // Cerrar cualquier lista abierta al final
+            if (inUnorderedList) {
+                formattedLines.push('</ul>');
+            }
+            if (inOrderedList) {
+                formattedLines.push('</ol>');
+            }
+
+            return formattedLines.join('\n');
+        }
+
+        async function sendMessage() {
+            const userMessageText = chatInput.value.trim();
+            if (userMessageText === '') return;
+
+            let aiResponseContent = ''; // Variable para almacenar la respuesta de la IA
+
+            // Mostrar mensaje del usuario
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.classList.add('message-bubble', 'user-message', 'animate__animated', 'animate__fadeInRight');
+            userMessageDiv.textContent = userMessageText;
+            chatMessages.appendChild(userMessageDiv);
+            chatInput.value = ''; // Limpiar el input después de enviar el mensaje
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll al final
+
+            // Respuestas predefinidas (prioridad sobre la API para estas preguntas)
+            const lowerCaseMessage = userMessageText.toLowerCase();
+
+            if (lowerCaseMessage.includes('la herramienta') || lowerCaseMessage.includes('acerca de lexi') || lowerCaseMessage.includes('que es lexi')) {
+                aiResponseContent = "Lexi es una asistente legal de IA diseñada para ofrecer información general y orientación preliminar sobre temas legales comunes. No sustituye la asesoría legal de un abogado colegiado. Para casos específicos, te recomendamos contactar a nuestros abogados de LexConnect.";
+            } else if (lowerCaseMessage.includes('oscar sierra') || lowerCaseMessage.includes('desarrollador')) {
+                aiResponseContent = "Oscar Sierra es el talentoso desarrollador que dio vida a la interfaz de LexConnect, asegurando una experiencia de usuario fluida y profesional. Puedes encontrar más de su trabajo en su Instagram: https://www.instagram.com/oscar_sierra_2921/";
+            } else {
+                // Si no es una respuesta predefinida, añadir al historial y llamar a la API
+                chatHistory.push({ role: "user", parts: [{ text: userMessageText }] });
+
+                // Mostrar "escribiendo..." de la IA
+                const typingIndicator = document.createElement('div');
+                typingIndicator.classList.add('message-bubble', 'ai-message', 'animate__animated', 'animate__fadeInLeft');
+                typingIndicator.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll al final
+
+                try {
+                    const payload = { contents: chatHistory }; // Enviar el historial completo
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    aiResponseContent = data.candidates[0].content.parts[0].text;
+                    chatHistory.push({ role: "model", parts: [{ text: aiResponseContent }] }); // Añadir respuesta de IA al historial
+                    chatMessages.removeChild(typingIndicator); // Remover indicador de typing
+
+                } catch (error) {
+                    console.error('Error al comunicarse con la IA:', error);
+                    chatMessages.removeChild(typingIndicator); // Remover indicador de typing
+                    aiResponseContent = 'Lo siento, hubo un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.';
+                    const errorMessageDiv = document.createElement('div');
+                    errorMessageDiv.classList.add('message-bubble', 'ai-message', 'text-red-600', 'animate__animated', 'animate__shakeX');
+                    errorMessageDiv.textContent = aiResponseContent;
+                    chatMessages.appendChild(errorMessageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll al final
+                    return; // Detener la función si hay un error en la API
+                }
+            }
+
+            // Mostrar respuesta de la IA (sea predefinida o de la API)
+            const aiMessageDiv = document.createElement('div');
+            aiMessageDiv.classList.add('message-bubble', 'ai-message', 'animate__animated', 'animate__fadeInLeft');
+            aiMessageDiv.innerHTML = formatMarkdownToHtml(aiResponseContent); // Formatear la respuesta
+            chatMessages.appendChild(aiMessageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll al final
+        }
+
+
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Configuración de EmailJS
+        // Inicializa EmailJS con tu Public Key
+        emailjs.init("3YnHxuHJWIxX5MLzL"); // Reemplaza 'YOUR_PUBLIC_KEY' con tu clave pública real de EmailJS
+
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío de formulario tradicional
+
+            const templateParams = {
+                from_name: document.getElementById('name').value,
+                from_email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value, // Cambiado de 'from_phone' a 'phone'
+                message: document.getElementById('message').value
+            };
+
+            // Envía el correo usando EmailJS
+            emailjs.send("service_nqbsxvv", "template_1soo5c7", templateParams) // Reemplaza con tus IDs reales
+                .then(function(response) {
+                    console.log('Correo enviado con éxito:', response.status, response.text);
+                    showCustomModal("¡Mensaje Enviado!", "Tu mensaje ha sido enviado con éxito. Te contactaremos pronto.", true);
+                    contactForm.reset(); // Limpiar el formulario
+                }, function(error) {
+                    console.error('Error al enviar el correo:', error);
+                    showCustomModal("Error al Enviar", "Hubo un problema al enviar tu mensaje. Por favor, inténtalo de nuevo.", false);
+                });
+        });
+
+
+        // Carrusel principal (Hero)
+        let heroCurrentSlide = 0;
+        const heroCarouselContainer = document.getElementById('heroCarouselContainer');
+        const heroSlides = document.querySelectorAll('.hero-carousel-slide');
+        const heroDotsContainer = document.getElementById('heroCarouselDots');
+        const totalHeroSlides = heroSlides.length;
+
+        function updateHeroCarousel() {
+            const offset = -heroCurrentSlide * 100;
+            heroCarouselContainer.style.transform = `translateX(${offset}%)`;
+            updateHeroDots();
+        }
+
+        function createHeroDots() {
+            heroDotsContainer.innerHTML = '';
+            for (let i = 0; i < totalHeroSlides; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === heroCurrentSlide) {
+                    dot.classList.add('active');
+                }
+                dot.addEventListener('click', () => {
+                    heroCurrentSlide = i;
+                    updateHeroCarousel();
+                });
+                heroDotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateHeroDots() {
+            const dots = heroDotsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === heroCurrentSlide);
+            });
+        }
+
+        function nextHeroSlide() {
+            heroCurrentSlide = (heroCurrentSlide + 1) % totalHeroSlides;
+            updateHeroCarousel();
+        }
+
+        createHeroDots();
+        setInterval(nextHeroSlide, 5000); // Cambia de slide cada 5 segundos
+
+
+        // Carrusel de Testimonios
+        let testimonialCurrentSlide = 0;
+        const testimonialsContainer = document.getElementById('testimonialsContainer');
+        const testimonials = document.querySelectorAll('.testimonial');
+        const testimonialDotsContainer = document.getElementById('testimonialDots');
+        const totalTestimonials = testimonials.length;
+
+        function updateTestimonialCarousel() {
+            const offset = -testimonialCurrentSlide * 100;
+            testimonialsContainer.style.transform = `translateX(${offset}%)`;
+            updateTestimonialDots();
+        }
+
+        function createTestimonialDots() {
+            testimonialDotsContainer.innerHTML = '';
+            for (let i = 0; i < totalTestimonials; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === testimonialCurrentSlide) {
+                    dot.classList.add('active');
+                }
+                dot.addEventListener('click', () => {
+                    testimonialCurrentSlide = i;
+                    updateTestimonialCarousel();
+                });
+                testimonialDotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateTestimonialDots() {
+            const dots = testimonialDotsContainer.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === testimonialCurrentSlide);
+            });
+        }
+
+        function nextTestimonialSlide() {
+            testimonialCurrentSlide = (testimonialCurrentSlide + 1) % totalTestimonials;
+            updateTestimonialCarousel();
+        }
+
+        createTestimonialDots();
+        setInterval(nextTestimonialSlide, 7000); // Cambia de testimonio cada 7 segundos
+
+        // Animación de aparición al hacer scroll
+        const animateOnScroll = (entries, observer) => {
+            entries.forEach(entry => {
+                // Verificar si el elemento es visible
+                if (entry.isIntersecting) {
+                    const targetElement = entry.target;
+                    const animationClass = targetElement.dataset.animationClass || 'animate__fadeInUp'; // Default to fadeInUp
+                    const animationDelay = targetElement.dataset.animationDelay;
+
+                    targetElement.classList.add('animate__animated', animationClass);
+                    if (animationDelay) {
+                        targetElement.style.animationDelay = animationDelay;
+                    }
+                    observer.unobserve(targetElement); // Deja de observar una vez que se ha animado
+                }
+            });
+        };
+        const observer = new IntersectionObserver(animateOnScroll, {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        });
+
+        // Observa todos los elementos con el atributo data-animate-on-scroll
+        document.querySelectorAll('[data-animate-on-scroll]').forEach(element => {
+            observer.observe(element);
+        });
+
+    </script>
+</body>
+</html>
