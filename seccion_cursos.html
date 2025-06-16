@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos de LexConnect - Aprende Derecho</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        /* Definición de variables de color para LexConnect */
+        :root {
+            --primary-blue: #2C3E50; /* Azul oscuro elegante */
+            --primary-blue-light: #34495E; /* Azul ligeramente más claro para hover */
+            --accent-gold: #FFD700; /* Dorado para acentos y resaltar */
+            --text-dark: #212529; /* Negro para texto principal */
+            --text-medium: #495057; /* Gris oscuro para texto secundario */
+            --bg-light: #F8F9FA; /* Fondo muy claro */
+            --bg-medium: #E9ECEF; /* Fondo medio para secciones */
+            --ai-bubble-bg: #E0F2F7; /* Azul claro para burbujas IA */
+        }
+
+        body {
+            font-family: 'Merriweather', serif; /* Fuente con serifa para un toque clásico */
+            background-color: var(--bg-light);
+            color: var(--text-medium);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif; /* Fuente sans-serif para títulos modernos */
+            color: var(--text-dark);
+        }
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-blue-light);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Estilos personalizados para la barra de progreso */
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 9999px; /* Tailwind's rounded-full */
+            overflow: hidden;
+            height: 8px; /* Altura de la barra de progreso */
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-gold); /* Color dorado para el progreso */
+            width: 0%; /* Se controlará con JS */
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Estilos para el modal de detalles del curso */
+        .course-details-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .course-details-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .course-details-content {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 95%;
+            max-width: 1200px; /* Increased max-width for better layout */
+            height: 90%;
+            display: flex;
+            flex-direction: column; /* Stack vertically on small screens */
+            overflow: hidden;
+            position: relative;
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            .course-details-content {
+                flex-direction: row; /* Horizontal layout on larger screens */
+            }
+        }
+
+        .course-details-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10; /* Ensure it's above other content */
+            transition: transform 0.2s ease;
+        }
+
+        .course-details-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modules-sidebar {
+            width: 100%;
+            max-height: 250px; /* Limit height on mobile */
+            overflow-y: auto;
+            border-bottom: 1px solid var(--bg-medium);
+            padding: 1.5rem;
+            flex-shrink: 0; /* Don't shrink when main content grows */
+        }
+
+        @media (min-width: 768px) {
+            .modules-sidebar {
+                width: 300px; /* Fixed width for sidebar on larger screens */
+                max-height: none; /* No height limit */
+                border-right: 1px solid var(--bg-medium);
+                border-bottom: none;
+            }
+        }
+
+        .module-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .module-item:hover {
+            background-color: var(--bg-medium);
+        }
+
+        .module-item.active {
+            background-color: var(--primary-blue);
+            color: white;
+            font-weight: 600;
+        }
+        .module-item.active .ph-play-circle,
+        .module-item.active .ph-check-circle {
+            color: var(--accent-gold);
+        }
+
+        .video-player-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+
+        .video-player-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            background-color: black;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .video-player-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md py-4">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-3xl font-extrabold text-primary-blue flex items-center gap-2">
+                <i class="ph-bold ph-scales text-4xl text-accent-gold"></i> LexConnect
+            </a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html#inicio" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Inicio</a>
+                <a href="index.html#servicios" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Servicios</a>
+                <a href="index.html#ia" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">IA Legal</a>
+                <a href="#" class="text-primary-blue font-semibold text-lg">Cursos</a> <!-- Active link for current page -->
+                <a href="index.html#estudiantes" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Estudiantes</a>
+                <a href="index.html#nosotros" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Nosotros</a>
+                <a href="index.html#contacto" class="text-gray-700 hover:text-primary-blue transition-colors font-semibold text-lg">Contacto</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                    <i class="ph-bold ph-list text-3xl"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-2 shadow-sm">
+            <button id="mobile-menu-close-button" class="close-button">
+                <i class="ph-bold ph-x"></i>
+            </button>
+            <a href="index.html#inicio" class="block px-4 py-3 text-gray-800 hover:bg-bg-medium font-medium">Inicio</a>
+            <a href="index.html#servicios" class="block px-4 py-3 text-gray-800 hover:bg-bg-medium font-medium">Servicios</a>
+            <a href="index.html#ia" class="block px-4 py-3 text-gray-800 hover:bg-bg-medium font-medium">IA Legal</a>
+            <a href="#" class="block px-4 py-3 text-primary-blue font-bold">Cursos</a>
+            <a href="index.html#estudiantes" class="block px-4 py-3 text-gray-800 hover:bg-bg-medium font-medium">Estudiantes</a>
+            <a href="index.html#nosotros" class="block px-4 py-3 text-gray-800 hover:bg-bg-medium font-medium">Nosotros</a>
+            <a href="index.html#contacto" class="block px-4 py-3 text-gray-800 hover:bg-bg-medium font-medium">Contacto</a>
+        </div>
+    </header>
+
+    <main class="py-20 px-4 bg-bg-light">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-8 text-text-dark animate__animated animate__fadeInDown">Nuestros Cursos de Derecho</h1>
+            <p class="text-lg text-text-medium mb-12 max-w-3xl mx-auto leading-relaxed animate__animated animate__fadeInUp animate__delay-0-2s">
+                Amplía tus conocimientos legales con nuestros cursos especializados, diseñados por expertos y adaptados a tu ritmo.
+            </p>
+
+            <!-- Barra de búsqueda de cursos -->
+            <div class="mb-12 max-w-xl mx-auto relative animate__animated animate__fadeInUp animate__delay-0-4s">
+                <input type="text" id="courseSearchInput" placeholder="Buscar cursos por título o descripción..." class="w-full p-3 pl-10 border border-gray-300 rounded-full focus:ring-primary-blue focus:border-primary-blue transition-all shadow-sm">
+                <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+
+            <!-- Contenedor de las tarjetas de cursos -->
+            <div id="coursesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Los cursos se renderizarán aquí dinámicamente con JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 px-4 shadow-inner">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-400 text-md">&copy; 2025 LexConnect. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal para los detalles del curso y reproductor de video de YouTube -->
+    <div id="courseDetailsModal" class="course-details-modal">
+        <div class="course-details-content">
+            <button id="courseDetailsModalClose" class="course-details-close">
+                <i class="ph-bold ph-x-circle"></i>
+            </button>
+            
+            <!-- Barra lateral de módulos -->
+            <div class="modules-sidebar">
+                <h3 class="text-2xl font-bold mb-4 text-text-dark" id="modalCourseTitle"></h3>
+                <p class="text-text-medium text-sm mb-6" id="modalCourseDescription"></p>
+                <h4 class="text-lg font-semibold mb-3 text-text-dark">Módulos del Curso</h4>
+                <ul id="modulesList" class="space-y-2">
+                    <!-- Los módulos se cargarán aquí -->
+                </ul>
+            </div>
+
+            <!-- Área del reproductor de video y descripción del módulo -->
+            <div class="video-player-area">
+                <div class="video-player-wrapper">
+                    <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-text-dark" id="currentModuleTitle"></h3>
+                <p class="text-text-medium text-base" id="currentModuleDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de los cursos con módulos detallados
+        const coursesData = [
+            {
+                id: 'laboral-individual-completo',
+                title: 'Derecho Laboral Individual: Guía Práctica y Actualizada',
+                description: 'Un curso completo sobre los fundamentos, tipos de contratos, derechos, obligaciones, jornada laboral, salarios, prestaciones y terminación del contrato de trabajo en Colombia, con base en la legislación actual.',
+                category: 'Derecho Laboral',
+                modules: [
+                    { title: 'Introducción al Derecho Laboral Individual', description: 'Explora la importancia del derecho laboral individual y su marco legal fundamental en Colombia.', videoUrl: 'https://www.youtube.com/embed/Pj1L76qP9_0?si=Wp1gV_6D_R6P1F_R' }, /* Ejemplo */
+                    { title: 'Principios Rectores del Derecho Laboral', description: 'Conoce los principios que guían la aplicación e interpretación de la legislación laboral colombiana.', videoUrl: 'https://www.youtube.com/embed/nC6wJv68vW0?si=p86n_8G2B2L0zE_d' }, /* Ejemplo */
+                    { title: 'Elementos Esenciales del Contrato de Trabajo', description: 'Aprende sobre la actividad personal, la subordinación y la remuneración como pilares del contrato laboral.', videoUrl: 'https://www.youtube.com/embed/jZ_y91c0fD4?si=9l2ZpM9zM5T0H3I_' }, /* Ejemplo */
+                    { title: 'Tipos de Contratos Individuales de Trabajo', description: 'Analiza las características de contratos a término fijo, indefinido, por obra o labor, y ocasional.', videoUrl: 'https://www.youtube.com/embed/G8j01L643cM?si=Jd8iI8o8o7u7bY3B' }, /* Ejemplo */
+                    { title: 'Requisitos para la Contratación Laboral', description: 'Detalla los documentos y la información necesaria para establecer una relación laboral conforme a la ley.', videoUrl: 'https://www.youtube.com/embed/U3lR-g-hB5Q?si=0m-tP8j_Z4d4Z9bH' }, /* Ejemplo */
+                    { title: 'Obligaciones Especiales del Empleador', description: 'Comprende las responsabilidades del empleador en seguridad, salud, remuneración y licencias.', videoUrl: 'https://www.youtube.com/embed/V61k3b2eE2Q?si=R9m2Z9w3Y7b4E2tW' }, /* Ejemplo */
+                    { title: 'Obligaciones Especiales del Trabajador', description: 'Conoce los deberes del empleado en el desempeño, conducta, confidencialidad y colaboración.', videoUrl: 'https://www.youtube.com/embed/oQxYd3F9qA0?si=2z7wF_g7Z6V5L1wA' }, /* Ejemplo */
+                    { title: 'Prohibiciones para Empleadores y Trabajadores', description: 'Identifica las acciones que están vetadas para ambas partes en la relación laboral.', videoUrl: 'https://www.youtube.com/embed/2-n9sN-U3_k?si=1n0hG1b5W2C9j9E9' }, /* Ejemplo */
+                    { title: 'Jornada Laboral Ordinaria y Horas Extras', description: 'Explora la regulación de la jornada, el trabajo nocturno y los recargos por horas extras.', videoUrl: 'https://www.youtube.com/embed/8vB3Nl1M8Ww?si=F8j4O8Q5A6X4H4J3' }, /* Ejemplo */
+                    { title: 'Descansos Obligatorios y Vacaciones Anuales', description: 'Aprende sobre el descanso semanal, diario, pausas activas y el derecho a vacaciones.', videoUrl: 'https://www.youtube.com/embed/Q0A0Q0A0A0Q?si=EXAMPLE_VACACIONES' }, /* Ejemplo */
+                    { title: 'Licencias y Permisos Laborales', description: 'Detalla los tipos de licencias (maternidad, paternidad, luto) y permisos en el ámbito laboral.', videoUrl: 'https://www.youtube.com/embed/W1x2Y3z4Z5z?si=EXAMPLE_LICENCIAS' }, /* Ejemplo */
+                    { title: 'Salario, Componentes y SMMLV', description: 'Comprende la definición de salario, sus componentes y el Salario Mínimo Legal Mensual Vigente.', videoUrl: 'https://www.youtube.com/embed/Y2z3X4w5w6w?si=EXAMPLE_SALARIO' }, /* Ejemplo */
+                    { title: 'Prestaciones Sociales: Tipos y Cálculo', description: 'Conoce las cesantías, primas y vacaciones como derechos irrenunciables de los trabajadores.', videoUrl: 'https://www.youtube.com/embed/Z3x4Y5z6Z7z?si=EXAMPLE_PRESTACIONES' }, /* Ejemplo */
+                    { title: 'Deducciones Legales del Salario', description: 'Identifica las deducciones obligatorias (salud, pensión) y otras como embargos y retención en la fuente.', videoUrl: 'https://www.youtube.com/embed/A4b5C6d7E8e?si=EXAMPLE_DEDUCCIONES' }, /* Ejemplo */
+                    { title: 'Sistema de Seguridad Social Integral (SSSI)', description: 'Explora los regímenes de pensiones, salud y riesgos laborales en Colombia.', videoUrl: 'https://www.youtube.com/embed/B5c6D7e8F9f?si=EXAMPLE_SSSI' }, /* Ejemplo */
+                    { title: 'Causas Legales de Terminación del Contrato', description: 'Analiza la terminación por justa causa, causales objetivas, mutuo acuerdo y sin justa causa.', videoUrl: 'https://www.youtube.com/embed/C6d7E8f9G0g?si=EXAMPLE_TERMINACION' }, /* Ejemplo */
+                    { title: 'Procedimiento de Terminación por Justa Causa', description: 'Conoce el riguroso proceso que debe seguir el empleador para el despido con justa causa.', videoUrl: 'https://www.youtube.com/embed/D7e8F9g0H1h?si=EXAMPLE_PROCEDIMIENTO' }, /* Ejemplo */
+                    { title: 'Indemnizaciones por Terminación sin Justa Causa', description: 'Calcula las indemnizaciones que el empleador debe pagar en caso de despido sin justificación.', videoUrl: 'https://www.youtube.com/embed/E8f9G0h1I2i?si=EXAMPLE_INDEMNIZACIONES' } /* Ejemplo */
+                ],
+                progress: 0
+            },
+            {
+                id: 'civil-contratos',
+                title: 'Fundamentos de Derecho Civil y Contratos',
+                description: 'Aprende los principios esenciales del derecho civil, desde obligaciones hasta la formación y efectos de los contratos.',
+                category: 'Derecho Civil',
+                modules: [
+                    { title: 'Introducción al Derecho Civil', description: 'Conceptos fundamentales del derecho civil, su historia y su importancia en la vida jurídica.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
+                    { title: 'Teoría General de las Obligaciones', description: 'Nacimiento, tipos, efectos y extinción de las obligaciones en el ámbito civil.', videoUrl: 'https://www.youtube.com/embed/video2_ejemplo' },
+                    { title: 'Elementos y Clasificación de Contratos', description: 'Requisitos esenciales, clasificación y principios de la contratación civil.', videoUrl: 'https://www.youtube.com/embed/video3_ejemplo' },
+                    { title: 'Efectos y Extinción de los Contratos', description: 'Cumplimiento, incumplimiento y las diversas formas de terminación de los contratos.', videoUrl: 'https://www.youtube.com/embed/video4_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'laboral-colectivo',
+                title: 'Derecho Laboral Colectivo',
+                description: 'Estudia las relaciones entre empleadores y trabajadores organizados, sindicatos y negociación colectiva.',
+                category: 'Derecho Laboral',
+                modules: [
+                    { title: 'Conceptos Fundamentales del Derecho Colectivo', description: 'Principios y sujetos del derecho colectivo del trabajo.', videoUrl: 'https://www.youtube.com/embed/video5_ejemplo' },
+                    { title: 'Libertad Sindical y Sindicatos', description: 'Formación, funciones y tipos de organizaciones sindicales.', videoUrl: 'https://www.youtube.com/embed/video6_ejemplo' },
+                    { title: 'Negociación Colectiva y Conflictos', description: 'Proceso de negociación, pactos, convenciones y resolución de conflictos colectivos.', videoUrl: 'https://www.youtube.com/embed/video7_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'laboral-individual',
+                title: 'Derecho Laboral Individual',
+                description: 'Analiza la relación jurídica entre el trabajador y el empleador, abarcando contratos, salarios, jornada laboral y despidos.',
+                category: 'Derecho Laboral',
+                modules: [
+                    { title: 'El Contrato de Trabajo y sus Elementos', description: 'Tipos de contratos, duración y condiciones esenciales.', videoUrl: 'https://www.youtube.com/embed/video8_ejemplo' },
+                    { title: 'Jornada, Salario y Prestaciones Sociales', description: 'Regulación de la jornada laboral, estructura salarial y beneficios sociales.', videoUrl: 'https://www.youtube.com/embed/video9_ejemplo' },
+                    { title: 'Suspensión y Terminación del Contrato de Trabajo', description: 'Causas de suspensión, formas de terminación y justas causas para el despido.', videoUrl: 'https://www.youtube.com/embed/video10_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'procesal-laboral',
+                title: 'Derecho Procesal Laboral',
+                description: 'Aprende sobre los procedimientos judiciales en materia laboral, desde la demanda hasta la ejecución de sentencias.',
+                category: 'Derecho Procesal',
+                modules: [
+                    { title: 'Principios y Órganos del Proceso Laboral', description: 'Características del proceso laboral y los juzgados competentes.', videoUrl: 'https://www.youtube.com/embed/video11_ejemplo' },
+                    { title: 'Etapas del Proceso Ordinario Laboral', description: 'Demanda, contestación, audiencias, pruebas y sentencia.', videoUrl: 'https://www.youtube.com/embed/video12_ejemplo' },
+                    { title: 'Recursos y Ejecución de Sentencias', description: 'Impugnación de decisiones judiciales y cumplimiento de lo ordenado.', videoUrl: 'https://www.youtube.com/embed/video13_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'administrativo-general-i',
+                title: 'Derecho Administrativo General I',
+                description: 'Explora los fundamentos del derecho que rige la organización y actividad de la administración pública.',
+                category: 'Derecho Administrativo',
+                modules: [
+                    { title: 'Conceptos y Fuentes del Derecho Administrativo', description: 'Definición, principios y normas que rigen la administración.', videoUrl: 'https://www.youtube.com/embed/video14_ejemplo' },
+                    { title: 'La Función Pública y el Acto Administrativo', description: 'Régimen de los servidores públicos y la voluntad de la administración.', videoUrl: 'https://www.youtube.com/embed/video15_ejemplo' },
+                    { title: 'Contratos Estatales y Responsabilidad Patrimonial', description: 'Modalidades de contratación pública y las consecuencias de los daños causados por el Estado.', videoUrl: 'https://www.youtube.com/embed/video16_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'administrativo-general-ii',
+                title: 'Derecho Administrativo General II',
+                description: 'Profundiza en los principios de la actuación administrativa, los regímenes especiales y el control de la administración.',
+                category: 'Derecho Administrativo',
+                modules: [
+                    { title: 'Procedimiento Administrativo General', description: 'Pasos y requisitos para las actuaciones administrativas.', videoUrl: 'https://www.youtube.com/embed/video17_ejemplo' },
+                    { title: 'Recursos en Vía Administrativa', description: 'Mecanismos para impugnar decisiones de la administración sin ir a juicio.', videoUrl: 'https://www.youtube.com/embed/video18_ejemplo' },
+                    { title: 'Control Judicial de la Administración Pública', description: 'Demandas contra el Estado y sus actos ante la jurisdicción contencioso-administrativa.', videoUrl: 'https://www.youtube.com/embed/video19_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'penal-general',
+                title: 'Derecho Penal General',
+                description: 'Estudia los principios y conceptos fundamentales del derecho penal, la teoría del delito y la pena.',
+                category: 'Derecho Penal',
+                modules: [
+                    { title: 'Principios Fundamentales del Derecho Penal', description: 'Legalidad, culpabilidad, lesividad y sus implicaciones.', videoUrl: 'https://www.youtube.com/embed/video20_ejemplo' },
+                    { title: 'La Teoría del Delito', description: 'Conceptos de acción, tipicidad, antijuridicidad y culpabilidad.', videoUrl: 'https://www.youtube.com/embed/video21_ejemplo' },
+                    { title: 'La Pena y las Medidas de Seguridad', description: 'Fines de la pena, clases de penas y medidas de seguridad.', videoUrl: 'https://www.youtube.com/embed/video22_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'penal-especial',
+                title: 'Derecho Penal Especial',
+                description: 'Análisis de los tipos penales específicos y los delitos contra bienes jurídicos particulares.',
+                category: 'Derecho Penal',
+                modules: [
+                    { title: 'Delitos contra la Vida y la Integridad Personal', description: 'Homicidio, lesiones personales y otros delitos contra la persona.', videoUrl: 'https://www.youtube.com/embed/video23_ejemplo' },
+                    { title: 'Delitos contra el Patrimonio Económico', description: 'Hurto, estafa, extorsión y otros delitos que afectan el patrimonio.', videoUrl: 'https://www.youtube.com/embed/video24_ejemplo' },
+                    { title: 'Delitos contra la Administración Pública', description: 'Corrupción, peculado, cohecho y otras conductas que atentan contra el servicio público.', videoUrl: 'https://www.youtube.com/embed/video25_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'familia-introduccion',
+                title: 'Derecho de Familia',
+                description: 'Conoce las normas que regulan las relaciones familiares, matrimonio, uniones maritales de hecho, filiación y alimentos.',
+                category: 'Derecho de Familia',
+                modules: [
+                    { title: 'Matrimonio y Unión Marital de Hecho', description: 'Celebración, requisitos, efectos y terminación de estas uniones.', videoUrl: 'https://www.youtube.com/embed/video26_ejemplo' },
+                    { title: 'Filiación y Paternidad Responsable', description: 'Establecimiento de la relación padre/madre-hijo/hija y sus implicaciones.', videoUrl: 'https://www.youtube.com/embed/video27_ejemplo' },
+                    { title: 'Regímenes Económicos del Matrimonio y Alimentos', description: 'Bienes en el matrimonio y la obligación de dar alimentos entre parientes.', videoUrl: 'https://www.youtube.com/embed/video28_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'constitucional-fundamentos',
+                title: 'Derecho Constitucional',
+                description: 'Estudia la Constitución, la estructura del Estado, los derechos fundamentales y los mecanismos de protección.',
+                category: 'Derecho Constitucional',
+                modules: [
+                    { title: 'La Constitución y el Estado Social de Derecho', description: 'Origen, supremacía constitucional y la organización del Estado.', videoUrl: 'https://www.youtube.com/embed/video29_ejemplo' },
+                    { title: 'Derechos Fundamentales y Acciones Constitucionales', description: 'Clasificación de derechos y mecanismos como la tutela o el habeas corpus.', videoUrl: 'https://www.youtube.com/embed/video30_ejemplo' },
+                    { title: 'Estructura del Poder Público y Ramas del Poder', description: 'Funcionamiento de las ramas Legislativa, Ejecutiva y Judicial.', videoUrl: 'https://www.youtube.com/embed/video31_ejemplo' }
+                ],
+                progress: 0
+            },
+            // Cursos adicionales que yo considero importantes
+            {
+                id: 'internacional-privado',
+                title: 'Derecho Internacional Privado',
+                description: 'Normas que regulan relaciones entre particulares con elementos extranjeros.',
+                category: 'Derecho Internacional',
+                modules: [
+                    { title: 'Conflictos de Leyes y Jurisdicciones', description: 'Cómo determinar qué ley o qué tribunal aplicar en casos transfronterizos.', videoUrl: 'https://www.youtube.com/embed/video32_ejemplo' },
+                    { title: 'Nacionalidad y Extranjería', description: 'Adquisición, pérdida de nacionalidad y régimen jurídico de los extranjeros.', videoUrl: 'https://www.youtube.com/embed/video33_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'tributario-aduanero',
+                title: 'Derecho Aduanero y Comercio Exterior',
+                description: 'Legislación sobre importaciones, exportaciones y régimen aduanero.',
+                category: 'Derecho Fiscal',
+                modules: [
+                    { title: 'Regímenes Aduaneros', description: 'Clases de regímenes (importación, exportación, tránsito) y sus requisitos.', videoUrl: 'https://www.youtube.com/embed/video34_ejemplo' },
+                    { title: 'Valoración Aduanera y Aranceles', description: 'Cálculo de impuestos y derechos aduaneros sobre mercancías.', videoUrl: 'https://www.youtube.com/embed/video35_ejemplo' }
+                ],
+                progress: 0
+            },
+            {
+                id: 'propiedad-intelectual',
+                title: 'Derecho de Propiedad Intelectual',
+                description: 'Protección de obras, invenciones, marcas y patentes.',
+                category: 'Derecho Especial',
+                modules: [
+                    { title: 'Derechos de Autor y Conexos', description: 'Protección de creaciones literarias, artísticas y científicas.', videoUrl: 'https://www.youtube.com/embed/video36_ejemplo' },
+                    { title: 'Propiedad Industrial: Marcas y Patentes', description: 'Registro y defensa de signos distintivos e invenciones tecnológicas.', videoUrl: 'https://www.youtube.com/embed/video37_ejemplo' }
+                ],
+                progress: 0
+            }
+        ];
+
+        const coursesContainer = document.getElementById('coursesContainer');
+        const courseSearchInput = document.getElementById('courseSearchInput');
+        
+        // Elementos del modal de detalles del curso
+        const courseDetailsModal = document.getElementById('courseDetailsModal');
+        const courseDetailsModalClose = document.getElementById('courseDetailsModalClose');
+        const modalCourseTitle = document.getElementById('modalCourseTitle');
+        const modalCourseDescription = document.getElementById('modalCourseDescription');
+        const modulesList = document.getElementById('modulesList');
+        const youtubePlayer = document.getElementById('youtubePlayer');
+        const currentModuleTitle = document.getElementById('currentModuleTitle');
+        const currentModuleDescription = document.getElementById('currentModuleDescription');
+
+        // Función para cargar el progreso de los cursos desde localStorage
+        function loadCourseProgress() {
+            coursesData.forEach(course => {
+                const storedProgress = localStorage.getItem(`courseProgress_${course.id}`);
+                if (storedProgress !== null) {
+                    course.progress = parseInt(storedProgress);
+                }
+            });
+        }
+
+        // Función para guardar el progreso de un curso en localStorage
+        function saveCourseProgress(courseId, progress) {
+            localStorage.setItem(`courseProgress_${courseId}`, progress);
+        }
+
+        // Función para renderizar los cursos
+        function renderCourses(filteredCourses = coursesData) {
+            coursesContainer.innerHTML = ''; // Limpiar el contenedor actual
+
+            if (filteredCourses.length === 0) {
+                coursesContainer.innerHTML = '<p class="col-span-full text-xl text-gray-600">No se encontraron cursos que coincidan con tu búsqueda.</p>';
+                return;
+            }
+
+            filteredCourses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.classList.add(
+                    'bg-white', 'p-6', 'rounded-xl', 'shadow-lg', 'flex', 'flex-col', 'items-start',
+                    'transform', 'transition-transform', 'hover:scale-105', 'hover:shadow-xl',
+                    'animate__animated', 'animate__fadeInUp'
+                );
+                courseCard.dataset.courseId = course.id; // Para identificar el curso al actualizar progreso
+
+                const displayProgress = Math.min(Math.max(course.progress, 0), 100); // Asegurar que esté entre 0 y 100
+
+                courseCard.innerHTML = `
+                    <div class="p-4 bg-primary-blue rounded-full mb-4 text-white shadow-md">
+                        <i class="ph-bold ph-book text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-text-dark">${course.title}</h3>
+                    <p class="text-text-medium leading-relaxed text-base flex-grow">${course.description}</p>
+                    
+                    <div class="w-full mt-4">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${displayProgress}%;"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2 text-right">${displayProgress}% completado</p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 mt-6 w-full">
+                        <button class="btn-primary flex-1 py-2 px-4 text-sm flex items-center justify-center gap-2 view-course-btn" data-course-id="${course.id}">
+                            Ver Curso <i class="ph-bold ph-play-circle text-lg"></i>
+                        </button>
+                        <button class="btn-primary flex-1 py-2 px-4 text-sm flex items-center justify-center gap-2 update-progress-btn" data-course-id="${course.id}" data-current-progress="${course.progress}">
+                            Actualizar Progreso <i class="ph-bold ph-arrow-counter-clockwise text-lg"></i>
+                        </button>
+                    </div>
+                `;
+                coursesContainer.appendChild(courseCard);
+            });
+
+            addCourseEventListeners(); // Añadir listeners después de renderizar
+        }
+
+        // Función para añadir event listeners a los botones de los cursos
+        function addCourseEventListeners() {
+            document.querySelectorAll('.view-course-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const courseId = event.currentTarget.dataset.courseId;
+                    openCourseDetailsModal(courseId);
+                });
+            });
+
+            document.querySelectorAll('.update-progress-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const courseId = event.currentTarget.dataset.courseId;
+                    let currentProgress = parseInt(event.currentTarget.dataset.currentProgress);
+
+                    // Lógica para actualizar el progreso (ejemplo: incrementa en 25%)
+                    currentProgress = (currentProgress + 25);
+                    if (currentProgress > 100) currentProgress = 0; // Reinicia a 0 si supera 100%
+                    
+                    // Actualizar el progreso en los datos
+                    const courseIndex = coursesData.findIndex(c => c.id === courseId);
+                    if (courseIndex > -1) {
+                        coursesData[courseIndex].progress = currentProgress;
+                        saveCourseProgress(courseId, currentProgress); // Guardar en localStorage
+                        renderCourses(coursesData.filter(course =>
+                            course.title.toLowerCase().includes(courseSearchInput.value.toLowerCase()) ||
+                            course.description.toLowerCase().includes(courseSearchInput.value.toLowerCase()) ||
+                            course.category.toLowerCase().includes(courseSearchInput.value.toLowerCase())
+                        )); // Volver a renderizar para mostrar el progreso actualizado y mantener el filtro
+                    }
+                });
+            });
+        }
+
+        // Lógica del modal de detalles del curso
+        let currentCourseModules = []; // Para almacenar los módulos del curso actual
+        let currentModuleIndex = 0; // Para rastrear el módulo activo
+
+        function openCourseDetailsModal(courseId) {
+            const course = coursesData.find(c => c.id === courseId);
+            if (!course) return;
+
+            modalCourseTitle.textContent = course.title;
+            modalCourseDescription.textContent = course.description;
+            modulesList.innerHTML = ''; // Limpiar lista de módulos
+
+            currentCourseModules = course.modules;
+            currentModuleIndex = 0; // Resetear al primer módulo al abrir el curso
+
+            currentCourseModules.forEach((module, index) => {
+                const moduleItem = document.createElement('li');
+                moduleItem.classList.add('module-item');
+                moduleItem.dataset.moduleIndex = index;
+                moduleItem.innerHTML = `
+                    <i class="ph-bold ${index === currentModuleIndex ? 'ph-play-circle' : 'ph-circle'} text-lg"></i>
+                    <span>${module.title}</span>
+                `;
+                modulesList.appendChild(moduleItem);
+
+                moduleItem.addEventListener('click', () => {
+                    playModuleVideo(index);
+                });
+            });
+
+            // Reproducir el primer módulo al abrir el modal
+            playModuleVideo(currentModuleIndex);
+
+            courseDetailsModal.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Evitar scroll del body
+        }
+
+        function playModuleVideo(index) {
+            if (index < 0 || index >= currentCourseModules.length) return;
+
+            currentModuleIndex = index;
+            const module = currentCourseModules[index];
+            youtubePlayer.src = module.videoUrl + "?autoplay=1"; // Añadir autoplay
+            currentModuleTitle.textContent = module.title;
+            // Now, display the description of the current module
+            currentModuleDescription.textContent = module.description; 
+
+            // Actualizar clase activa en la lista de módulos
+            document.querySelectorAll('.module-item').forEach((item, idx) => {
+                item.classList.toggle('active', idx === currentModuleIndex);
+                // Cambiar icono: play para el activo, circle para otros
+                item.querySelector('i').className = `ph-bold ${idx === currentModuleIndex ? 'ph-play-circle' : 'ph-circle'} text-lg`;
+            });
+        }
+
+        function closeCourseDetailsModal() {
+            youtubePlayer.src = ""; // Detener el video
+            courseDetailsModal.classList.remove('open');
+            document.body.style.overflow = ''; // Restaurar scroll del body
+        }
+
+        courseDetailsModalClose.addEventListener('click', closeCourseDetailsModal);
+
+        // Cerrar modal si se presiona ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && courseDetailsModal.classList.contains('open')) {
+                closeCourseDetailsModal();
+            }
+        });
+
+        // Filtrar cursos al escribir en la barra de búsqueda
+        courseSearchInput.addEventListener('input', (event) => {
+            const searchTerm = event.target.value.toLowerCase();
+            const filteredCourses = coursesData.filter(course =>
+                course.title.toLowerCase().includes(searchTerm) ||
+                course.description.toLowerCase().includes(searchTerm) ||
+                course.category.toLowerCase().includes(searchTerm) // También busca por categoría
+            );
+            renderCourses(filteredCourses);
+        });
+
+        // Menú móvil
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+
+        mobileMenuCloseButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+
+        // Cargar progreso y renderizar cursos al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCourseProgress();
+            renderCourses();
+        });
+    </script>
+</body>
+</html>
