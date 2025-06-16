@@ -271,7 +271,10 @@
             <!-- Área del reproductor de video y descripción del módulo -->
             <div class="video-player-area">
                 <div class="video-player-wrapper">
-                    <iframe id="youtubePlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <!-- Iframe de YouTube con atributos completos para permitir todas las funcionalidades -->
+                    <iframe id="youtubePlayer" src="" frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <h3 class="text-xl font-bold mb-2 text-text-dark" id="currentModuleTitle"></h3>
                 <p class="text-text-medium text-base" id="currentModuleDescription"></p>
@@ -288,24 +291,24 @@
                 description: 'Un curso completo sobre los fundamentos, tipos de contratos, derechos, obligaciones, jornada laboral, salarios, prestaciones y terminación del contrato de trabajo en Colombia, con base en la legislación actual.',
                 category: 'Derecho Laboral',
                 modules: [
-                    { title: 'Introducción al Derecho Laboral Individual', description: 'Explora la importancia del derecho laboral individual y su marco legal fundamental en Colombia.', videoUrl: 'https://www.youtube.com/embed/Pj1L76qP9_0?si=Wp1gV_6D_R6P1F_R' }, /* Ejemplo */
-                    { title: 'Principios Rectores del Derecho Laboral', description: 'Conoce los principios que guían la aplicación e interpretación de la legislación laboral colombiana.', videoUrl: 'https://www.youtube.com/embed/nLeQfijo0mo?si=8f6k3O-xd2T05m-5" title="YouTube video player' }, /* Ejemplo */
-                    { title: 'Elementos Esenciales del Contrato de Trabajo', description: 'Aprende sobre la actividad personal, la subordinación y la remuneración como pilares del contrato laboral.', videoUrl: 'https://www.youtube.com/embed/jZ_y91c0fD4?si=9l2ZpM9zM5T0H3I_' }, /* Ejemplo */
-                    { title: 'Tipos de Contratos Individuales de Trabajo', description: 'Analiza las características de contratos a término fijo, indefinido, por obra o labor, y ocasional.', videoUrl: 'https://www.youtube.com/embed/G8j01L643cM?si=Jd8iI8o8o7u7bY3B' }, /* Ejemplo */
-                    { title: 'Requisitos para la Contratación Laboral', description: 'Detalla los documentos y la información necesaria para establecer una relación laboral conforme a la ley.', videoUrl: 'https://www.youtube.com/embed/U3lR-g-hB5Q?si=0m-tP8j_Z4d4Z9bH' }, /* Ejemplo */
-                    { title: 'Obligaciones Especiales del Empleador', description: 'Comprende las responsabilidades del empleador en seguridad, salud, remuneración y licencias.', videoUrl: 'https://www.youtube.com/embed/V61k3b2eE2Q?si=R9m2Z9w3Y7b4E2tW' }, /* Ejemplo */
-                    { title: 'Obligaciones Especiales del Trabajador', description: 'Conoce los deberes del empleado en el desempeño, conducta, confidencialidad y colaboración.', videoUrl: 'https://www.youtube.com/embed/oQxYd3F9qA0?si=2z7wF_g7Z6V5L1wA' }, /* Ejemplo */
-                    { title: 'Prohibiciones para Empleadores y Trabajadores', description: 'Identifica las acciones que están vetadas para ambas partes en la relación laboral.', videoUrl: 'https://www.youtube.com/embed/2-n9sN-U3_k?si=1n0hG1b5W2C9j9E9' }, /* Ejemplo */
-                    { title: 'Jornada Laboral Ordinaria y Horas Extras', description: 'Explora la regulación de la jornada, el trabajo nocturno y los recargos por horas extras.', videoUrl: 'https://www.youtube.com/embed/8vB3Nl1M8Ww?si=F8j4O8Q5A6X4H4J3' }, /* Ejemplo */
-                    { title: 'Descansos Obligatorios y Vacaciones Anuales', description: 'Aprende sobre el descanso semanal, diario, pausas activas y el derecho a vacaciones.', videoUrl: 'https://www.youtube.com/embed/Q0A0Q0A0A0Q?si=EXAMPLE_VACACIONES' }, /* Ejemplo */
-                    { title: 'Licencias y Permisos Laborales', description: 'Detalla los tipos de licencias (maternidad, paternidad, luto) y permisos en el ámbito laboral.', videoUrl: 'https://www.youtube.com/embed/W1x2Y3z4Z5z?si=EXAMPLE_LICENCIAS' }, /* Ejemplo */
-                    { title: 'Salario, Componentes y SMMLV', description: 'Comprende la definición de salario, sus componentes y el Salario Mínimo Legal Mensual Vigente.', videoUrl: 'https://www.youtube.com/embed/Y2z3X4w5w6w?si=EXAMPLE_SALARIO' }, /* Ejemplo */
-                    { title: 'Prestaciones Sociales: Tipos y Cálculo', description: 'Conoce las cesantías, primas y vacaciones como derechos irrenunciables de los trabajadores.', videoUrl: 'https://www.youtube.com/embed/Z3x4Y5z6Z7z?si=EXAMPLE_PRESTACIONES' }, /* Ejemplo */
-                    { title: 'Deducciones Legales del Salario', description: 'Identifica las deducciones obligatorias (salud, pensión) y otras como embargos y retención en la fuente.', videoUrl: 'https://www.youtube.com/embed/A4b5C6d7E8e?si=EXAMPLE_DEDUCCIONES' }, /* Ejemplo */
-                    { title: 'Sistema de Seguridad Social Integral (SSSI)', description: 'Explora los regímenes de pensiones, salud y riesgos laborales en Colombia.', videoUrl: 'https://www.youtube.com/embed/B5c6D7e8F9f?si=EXAMPLE_SSSI' }, /* Ejemplo */
-                    { title: 'Causas Legales de Terminación del Contrato', description: 'Analiza la terminación por justa causa, causales objetivas, mutuo acuerdo y sin justa causa.', videoUrl: 'https://www.youtube.com/embed/C6d7E8f9G0g?si=EXAMPLE_TERMINACION' }, /* Ejemplo */
-                    { title: 'Procedimiento de Terminación por Justa Causa', description: 'Conoce el riguroso proceso que debe seguir el empleador para el despido con justa causa.', videoUrl: 'https://www.youtube.com/embed/D7e8F9g0H1h?si=EXAMPLE_PROCEDIMIENTO' }, /* Ejemplo */
-                    { title: 'Indemnizaciones por Terminación sin Justa Causa', description: 'Calcula las indemnizaciones que el empleador debe pagar en caso de despido sin justificación.', videoUrl: 'https://www.youtube.com/embed/E8f9G0h1I2i?si=EXAMPLE_INDEMNIZACIONES' } /* Ejemplo */
+                    { title: 'Introducción al Derecho Laboral Individual', description: 'Explora la importancia del derecho laboral individual y su marco legal fundamental en Colombia.', videoUrl: 'https://www.youtube.com/embed/oC9MOfILipA' }, // URL de prueba proporcionada por el usuario
+                    { title: 'Principios Rectores del Derecho Laboral', description: 'Conoce los principios que guían la aplicación e interpretación de la legislación laboral colombiana.', videoUrl: 'https://www.youtube.com/embed/dXKFf-6NPV4?si=hO1FclqOjFfZ-kg1' },
+                    { title: 'Elementos Esenciales del Contrato de Trabajo', description: 'Aprende sobre la actividad personal, la subordinación y la remuneración como pilares del contrato laboral.', videoUrl: 'https://www.youtube.com/embed/nLeQfijo0mo?si=8f6k3O-xd2T05m-5" title="YouTube video player' },
+                    { title: 'Tipos de Contratos Individuales de Trabajo', description: 'Analiza las características de contratos a término fijo, indefinido, por obra o labor, y ocasional.', videoUrl: 'https://www.youtube.com/embed/G8j01L643cM' },
+                    { title: 'Requisitos para la Contratación Laboral', description: 'Detalla los documentos y la información necesaria para establecer una relación laboral conforme a la ley.', videoUrl: 'https://www.youtube.com/embed/U3lR-g-hB5Q' },
+                    { title: 'Obligaciones Especiales del Empleador', description: 'Comprende las responsabilidades del empleador en seguridad, salud, remuneración y licencias.', videoUrl: 'https://www.youtube.com/embed/V61k3b2eE2Q' },
+                    { title: 'Obligaciones Especiales del Trabajador', description: 'Conoce los deberes del empleado en el desempeño, conducta, confidencialidad y colaboración.', videoUrl: 'https://www.youtube.com/embed/oQxYd3F9qA0' },
+                    { title: 'Prohibiciones para Empleadores y Trabajadores', description: 'Identifica las acciones que están vetadas para ambas partes en la relación laboral.', videoUrl: 'https://www.youtube.com/embed/2-n9sN-U3_k' },
+                    { title: 'Jornada Laboral Ordinaria y Horas Extras', description: 'Explora la regulación de la jornada, el trabajo nocturno y los recargos por horas extras.', videoUrl: 'https://www.youtube.com/embed/8vB3Nl1M8Ww' },
+                    { title: 'Descansos Obligatorios y Vacaciones Anuales', description: 'Aprende sobre el descanso semanal, diario, pausas activas y el derecho a vacaciones.', videoUrl: 'https://www.youtube.com/embed/dg148M_t6nE' }, 
+                    { title: 'Licencias y Permisos Laborales', description: 'Detalla los tipos de licencias (maternidad, paternidad, luto) y permisos en el ámbito laboral.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }, 
+                    { title: 'Salario, Componentes y SMMLV', description: 'Comprende la definición de salario, sus componentes y el Salario Mínimo Legal Mensual Vigente.', videoUrl: 'https://www.youtube.com/embed/qg_wP9gYQz4' }, 
+                    { title: 'Prestaciones Sociales: Tipos y Cálculo', description: 'Conoce las cesantías, primas y vacaciones como derechos irrenunciables de los trabajadores.', videoUrl: 'https://www.youtube.com/embed/E-0w_2jE_Xo' }, 
+                    { title: 'Deducciones Legales del Salario', description: 'Identifica las deducciones obligatorias (salud, pensión) y otras como embargos y retención en la fuente.', videoUrl: 'https://www.youtube.com/embed/M_n-iB6K0S8' }, 
+                    { title: 'Sistema de Seguridad Social Integral (SSSI)', description: 'Explora los regímenes de pensiones, salud y riesgos laborales en Colombia.', videoUrl: 'https://www.youtube.com/embed/Nn-FmS772k8' }, 
+                    { title: 'Causas Legales de Terminación del Contrato', description: 'Analiza la terminación por justa causa, causales objetivas, mutuo acuerdo y sin justa causa.', videoUrl: 'https://www.youtube.com/embed/s37L392y10s' }, 
+                    { title: 'Procedimiento de Terminación por Justa Causa', description: 'Conoce el riguroso proceso que debe seguir el empleador para el despido con justa causa.', videoUrl: 'https://www.youtube.com/embed/L1m1eF4M5w4' }, 
+                    { title: 'Indemnizaciones por Terminación sin Justa Causa', description: 'Calcula las indemnizaciones que el empleador debe pagar en caso de despido sin justificación.', videoUrl: 'https://www.youtube.com/embed/E8f9G0h1I2i' }
                 ],
                 progress: 0
             },
@@ -315,10 +318,10 @@
                 description: 'Aprende los principios esenciales del derecho civil, desde obligaciones hasta la formación y efectos de los contratos.',
                 category: 'Derecho Civil',
                 modules: [
-                    { title: 'Introducción al Derecho Civil', description: 'Conceptos fundamentales del derecho civil, su historia y su importancia en la vida jurídica.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
-                    { title: 'Teoría General de las Obligaciones', description: 'Nacimiento, tipos, efectos y extinción de las obligaciones en el ámbito civil.', videoUrl: 'https://www.youtube.com/embed/video2_ejemplo' },
-                    { title: 'Elementos y Clasificación de Contratos', description: 'Requisitos esenciales, clasificación y principios de la contratación civil.', videoUrl: 'https://www.youtube.com/embed/video3_ejemplo' },
-                    { title: 'Efectos y Extinción de los Contratos', description: 'Cumplimiento, incumplimiento y las diversas formas de terminación de los contratos.', videoUrl: 'https://www.youtube.com/embed/video4_ejemplo' }
+                    { title: 'Introducción al Derecho Civil', description: 'Conceptos fundamentales del derecho civil, su historia y su importancia en la vida jurídica.', videoUrl: 'https://www.youtube.com/embed/Lq0gL-K8C5k' },
+                    { title: 'Teoría General de las Obligaciones', description: 'Nacimiento, tipos, efectos y extinción de las obligaciones en el ámbito civil.', videoUrl: 'https://www.youtube.com/embed/yR7LhXbN1A4' },
+                    { title: 'Elementos y Clasificación de Contratos', description: 'Requisitos esenciales, clasificación y principios de la contratación civil.', videoUrl: 'https://www.youtube.com/embed/zQ2PqX-Y4R4' },
+                    { title: 'Efectos y Extinción de los Contratos', description: 'Cumplimiento, incumplimiento y las diversas formas de terminación de los contratos.', videoUrl: 'https://www.youtube.com/embed/oQxYd3F9qA0' }
                 ],
                 progress: 0
             },
@@ -328,9 +331,9 @@
                 description: 'Estudia las relaciones entre empleadores y trabajadores organizados, sindicatos y negociación colectiva.',
                 category: 'Derecho Laboral',
                 modules: [
-                    { title: 'Conceptos Fundamentales del Derecho Colectivo', description: 'Principios y sujetos del derecho colectivo del trabajo.', videoUrl: 'https://www.youtube.com/embed/video5_ejemplo' },
-                    { title: 'Libertad Sindical y Sindicatos', description: 'Formación, funciones y tipos de organizaciones sindicales.', videoUrl: 'https://www.youtube.com/embed/video6_ejemplo' },
-                    { title: 'Negociación Colectiva y Conflictos', description: 'Proceso de negociación, pactos, convenciones y resolución de conflictos colectivos.', videoUrl: 'https://www.youtube.com/embed/video7_ejemplo' }
+                    { title: 'Conceptos Fundamentales del Derecho Colectivo', description: 'Principios y sujetos del derecho colectivo del trabajo.', videoUrl: 'https://www.youtube.com/embed/nC6wJv68vW0' },
+                    { title: 'Libertad Sindical y Sindicatos', description: 'Formación, funciones y tipos de organizaciones sindicales.', videoUrl: 'https://www.youtube.com/embed/jZ_y91c0fD4' },
+                    { title: 'Negociación Colectiva y Conflictos', description: 'Proceso de negociación, pactos, convenciones y resolución de conflictos colectivos.', videoUrl: 'https://www.youtube.com/embed/G8j01L643cM' }
                 ],
                 progress: 0
             },
@@ -340,9 +343,9 @@
                 description: 'Analiza la relación jurídica entre el trabajador y el empleador, abarcando contratos, salarios, jornada laboral y despidos.',
                 category: 'Derecho Laboral',
                 modules: [
-                    { title: 'El Contrato de Trabajo y sus Elementos', description: 'Tipos de contratos, duración y condiciones esenciales.', videoUrl: 'https://www.youtube.com/embed/video8_ejemplo' },
-                    { title: 'Jornada, Salario y Prestaciones Sociales', description: 'Regulación de la jornada laboral, estructura salarial y beneficios sociales.', videoUrl: 'https://www.youtube.com/embed/video9_ejemplo' },
-                    { title: 'Suspensión y Terminación del Contrato de Trabajo', description: 'Causas de suspensión, formas de terminación y justas causas para el despido.', videoUrl: 'https://www.youtube.com/embed/video10_ejemplo' }
+                    { title: 'El Contrato de Trabajo y sus Elementos', description: 'Tipos de contratos, duración y condiciones esenciales.', videoUrl: 'https://www.youtube.com/embed/U3lR-g-hB5Q' },
+                    { title: 'Jornada, Salario y Prestaciones Sociales', description: 'Regulación de la jornada laboral, estructura salarial y beneficios sociales.', videoUrl: 'https://www.youtube.com/embed/V61k3b2eE2Q' },
+                    { title: 'Suspensión y Terminación del Contrato de Trabajo', description: 'Causas de suspensión, formas de terminación y justas causas para el despido.', videoUrl: 'https://www.youtube.com/embed/oQxYd3F9qA0' }
                 ],
                 progress: 0
             },
@@ -352,9 +355,9 @@
                 description: 'Aprende sobre los procedimientos judiciales en materia laboral, desde la demanda hasta la ejecución de sentencias.',
                 category: 'Derecho Procesal',
                 modules: [
-                    { title: 'Principios y Órganos del Proceso Laboral', description: 'Características del proceso laboral y los juzgados competentes.', videoUrl: 'https://www.youtube.com/embed/video11_ejemplo' },
-                    { title: 'Etapas del Proceso Ordinario Laboral', description: 'Demanda, contestación, audiencias, pruebas y sentencia.', videoUrl: 'https://www.youtube.com/embed/video12_ejemplo' },
-                    { title: 'Recursos y Ejecución de Sentencias', description: 'Impugnación de decisiones judiciales y cumplimiento de lo ordenado.', videoUrl: 'https://www.youtube.com/embed/video13_ejemplo' }
+                    { title: 'Principios y Órganos del Proceso Laboral', description: 'Características del proceso laboral y los juzgados competentes.', videoUrl: 'https://www.youtube.com/embed/2-n9sN-U3_k' },
+                    { title: 'Etapas del Proceso Ordinario Laboral', description: 'Demanda, contestación, audiencias, pruebas y sentencia.', videoUrl: 'https://www.youtube.com/embed/8vB3Nl1M8Ww' },
+                    { title: 'Recursos y Ejecución de Sentencias', description: 'Impugnación de decisiones judiciales y cumplimiento de lo ordenado.', videoUrl: 'https://www.youtube.com/embed/dg148M_t6nE' }
                 ],
                 progress: 0
             },
@@ -364,9 +367,9 @@
                 description: 'Explora los fundamentos del derecho que rige la organización y actividad de la administración pública.',
                 category: 'Derecho Administrativo',
                 modules: [
-                    { title: 'Conceptos y Fuentes del Derecho Administrativo', description: 'Definición, principios y normas que rigen la administración.', videoUrl: 'https://www.youtube.com/embed/video14_ejemplo' },
-                    { title: 'La Función Pública y el Acto Administrativo', description: 'Régimen de los servidores públicos y la voluntad de la administración.', videoUrl: 'https://www.youtube.com/embed/video15_ejemplo' },
-                    { title: 'Contratos Estatales y Responsabilidad Patrimonial', description: 'Modalidades de contratación pública y las consecuencias de los daños causados por el Estado.', videoUrl: 'https://www.youtube.com/embed/video16_ejemplo' }
+                    { title: 'Conceptos y Fuentes del Derecho Administrativo', description: 'Definición, principios y normas que rigen la administración.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
+                    { title: 'La Función Pública y el Acto Administrativo', description: 'Régimen de los servidores públicos y la voluntad de la administración.', videoUrl: 'https://www.youtube.com/embed/qg_wP9gYQz4' },
+                    { title: 'Contratos Estatales y Responsabilidad Patrimonial', description: 'Modalidades de contratación pública y las consecuencias de los daños causados por el Estado.', videoUrl: 'https://www.youtube.com/embed/E-0w_2jE_Xo' }
                 ],
                 progress: 0
             },
@@ -376,9 +379,9 @@
                 description: 'Profundiza en los principios de la actuación administrativa, los regímenes especiales y el control de la administración.',
                 category: 'Derecho Administrativo',
                 modules: [
-                    { title: 'Procedimiento Administrativo General', description: 'Pasos y requisitos para las actuaciones administrativas.', videoUrl: 'https://www.youtube.com/embed/video17_ejemplo' },
-                    { title: 'Recursos en Vía Administrativa', description: 'Mecanismos para impugnar decisiones de la administración sin ir a juicio.', videoUrl: 'https://www.youtube.com/embed/video18_ejemplo' },
-                    { title: 'Control Judicial de la Administración Pública', description: 'Demandas contra el Estado y sus actos ante la jurisdicción contencioso-administrativa.', videoUrl: 'https://www.youtube.com/embed/video19_ejemplo' }
+                    { title: 'Procedimiento Administrativo General', description: 'Pasos y requisitos para las actuaciones administrativas.', videoUrl: 'https://www.youtube.com/embed/M_n-iB6K0S8' },
+                    { title: 'Recursos en Vía Administrativa', description: 'Mecanismos para impugnar decisiones de la administración sin ir a juicio.', videoUrl: 'https://www.youtube.com/embed/Nn-FmS772k8' },
+                    { title: 'Control Judicial de la Administración Pública', description: 'Demandas contra el Estado y sus actos ante la jurisdicción contencioso-administrativa.', videoUrl: 'https://www.youtube.com/embed/s37L392y10s' }
                 ],
                 progress: 0
             },
@@ -388,9 +391,9 @@
                 description: 'Estudia los principios y conceptos fundamentales del derecho penal, la teoría del delito y la pena.',
                 category: 'Derecho Penal',
                 modules: [
-                    { title: 'Principios Fundamentales del Derecho Penal', description: 'Legalidad, culpabilidad, lesividad y sus implicaciones.', videoUrl: 'https://www.youtube.com/embed/video20_ejemplo' },
-                    { title: 'La Teoría del Delito', description: 'Conceptos de acción, tipicidad, antijuridicidad y culpabilidad.', videoUrl: 'https://www.youtube.com/embed/video21_ejemplo' },
-                    { title: 'La Pena y las Medidas de Seguridad', description: 'Fines de la pena, clases de penas y medidas de seguridad.', videoUrl: 'https://www.youtube.com/embed/video22_ejemplo' }
+                    { title: 'Principios Fundamentales del Derecho Penal', description: 'Legalidad, culpabilidad, lesividad y sus implicaciones.', videoUrl: 'https://www.youtube.com/embed/L1m1eF4M5w4' },
+                    { title: 'La Teoría del Delito', description: 'Conceptos de acción, tipicidad, antijuridicidad y culpabilidad.', videoUrl: 'https://www.youtube.com/embed/E8f9G0h1I2i' },
+                    { title: 'La Pena y las Medidas de Seguridad', description: 'Fines de la pena, clases de penas y medidas de seguridad.', videoUrl: 'https://www.youtube.com/embed/Pj1L76qP9_0' }
                 ],
                 progress: 0
             },
@@ -400,9 +403,9 @@
                 description: 'Análisis de los tipos penales específicos y los delitos contra bienes jurídicos particulares.',
                 category: 'Derecho Penal',
                 modules: [
-                    { title: 'Delitos contra la Vida y la Integridad Personal', description: 'Homicidio, lesiones personales y otros delitos contra la persona.', videoUrl: 'https://www.youtube.com/embed/video23_ejemplo' },
-                    { title: 'Delitos contra el Patrimonio Económico', description: 'Hurto, estafa, extorsión y otros delitos que afectan el patrimonio.', videoUrl: 'https://www.youtube.com/embed/video24_ejemplo' },
-                    { title: 'Delitos contra la Administración Pública', description: 'Corrupción, peculado, cohecho y otras conductas que atentan contra el servicio público.', videoUrl: 'https://www.youtube.com/embed/video25_ejemplo' }
+                    { title: 'Delitos contra la Vida y la Integridad Personal', description: 'Homicidio, lesiones personales y otros delitos contra la persona.', videoUrl: 'https://www.youtube.com/embed/nC6wJv68vW0' },
+                    { title: 'Delitos contra el Patrimonio Económico', description: 'Hurto, estafa, extorsión y otros delitos que afectan el patrimonio.', videoUrl: 'https://www.youtube.com/embed/jZ_y91c0fD4' },
+                    { title: 'Delitos contra la Administración Pública', description: 'Corrupción, peculado, cohecho y otras conductas que atentan contra el servicio público.', videoUrl: 'https://www.youtube.com/embed/G8j01L643cM' }
                 ],
                 progress: 0
             },
@@ -412,9 +415,9 @@
                 description: 'Conoce las normas que regulan las relaciones familiares, matrimonio, uniones maritales de hecho, filiación y alimentos.',
                 category: 'Derecho de Familia',
                 modules: [
-                    { title: 'Matrimonio y Unión Marital de Hecho', description: 'Celebración, requisitos, efectos y terminación de estas uniones.', videoUrl: 'https://www.youtube.com/embed/video26_ejemplo' },
-                    { title: 'Filiación y Paternidad Responsable', description: 'Establecimiento de la relación padre/madre-hijo/hija y sus implicaciones.', videoUrl: 'https://www.youtube.com/embed/video27_ejemplo' },
-                    { title: 'Regímenes Económicos del Matrimonio y Alimentos', description: 'Bienes en el matrimonio y la obligación de dar alimentos entre parientes.', videoUrl: 'https://www.youtube.com/embed/video28_ejemplo' }
+                    { title: 'Matrimonio y Unión Marital de Hecho', description: 'Celebración, requisitos, efectos y terminación de estas uniones.', videoUrl: 'https://www.youtube.com/embed/U3lR-g-hB5Q' },
+                    { title: 'Filiación y Paternidad Responsable', description: 'Establecimiento de la relación padre/madre-hijo/hija y sus implicaciones.', videoUrl: 'https://www.youtube.com/embed/V61k3b2eE2Q' },
+                    { title: 'Regímenes Económicos del Matrimonio y Alimentos', description: 'Bienes en el matrimonio y la obligación de dar alimentos entre parientes.', videoUrl: 'https://www.youtube.com/embed/oQxYd3F9qA0' }
                 ],
                 progress: 0
             },
@@ -424,9 +427,9 @@
                 description: 'Estudia la Constitución, la estructura del Estado, los derechos fundamentales y los mecanismos de protección.',
                 category: 'Derecho Constitucional',
                 modules: [
-                    { title: 'La Constitución y el Estado Social de Derecho', description: 'Origen, supremacía constitucional y la organización del Estado.', videoUrl: 'https://www.youtube.com/embed/video29_ejemplo' },
-                    { title: 'Derechos Fundamentales y Acciones Constitucionales', description: 'Clasificación de derechos y mecanismos como la tutela o el habeas corpus.', videoUrl: 'https://www.youtube.com/embed/video30_ejemplo' },
-                    { title: 'Estructura del Poder Público y Ramas del Poder', description: 'Funcionamiento de las ramas Legislativa, Ejecutiva y Judicial.', videoUrl: 'https://www.youtube.com/embed/video31_ejemplo' }
+                    { title: 'La Constitución y el Estado Social de Derecho', description: 'Origen, supremacía constitucional y la organización del Estado.', videoUrl: 'https://www.youtube.com/embed/2-n9sN-U3_k' },
+                    { title: 'Derechos Fundamentales y Acciones Constitucionales', description: 'Clasificación de derechos y mecanismos como la tutela o el habeas corpus.', videoUrl: 'https://www.youtube.com/embed/8vB3Nl1M8Ww' },
+                    { title: 'Estructura del Poder Público y Ramas del Poder', description: 'Funcionamiento de las ramas Legislativa, Ejecutiva y Judicial.', videoUrl: 'https://www.youtube.com/embed/dg148M_t6nE' }
                 ],
                 progress: 0
             },
@@ -437,8 +440,8 @@
                 description: 'Normas que regulan relaciones entre particulares con elementos extranjeros.',
                 category: 'Derecho Internacional',
                 modules: [
-                    { title: 'Conflictos de Leyes y Jurisdicciones', description: 'Cómo determinar qué ley o qué tribunal aplicar en casos transfronterizos.', videoUrl: 'https://www.youtube.com/embed/video32_ejemplo' },
-                    { title: 'Nacionalidad y Extranjería', description: 'Adquisición, pérdida de nacionalidad y régimen jurídico de los extranjeros.', videoUrl: 'https://www.youtube.com/embed/video33_ejemplo' }
+                    { title: 'Conflictos de Leyes y Jurisdicciones', description: 'Cómo determinar qué ley o qué tribunal aplicar en casos transfronterizos.', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
+                    { title: 'Nacionalidad y Extranjería', description: 'Adquisición, pérdida de nacionalidad y régimen jurídico de los extranjeros.', videoUrl: 'https://www.youtube.com/embed/qg_wP9gYQz4' }
                 ],
                 progress: 0
             },
@@ -448,8 +451,8 @@
                 description: 'Legislación sobre importaciones, exportaciones y régimen aduanero.',
                 category: 'Derecho Fiscal',
                 modules: [
-                    { title: 'Regímenes Aduaneros', description: 'Clases de regímenes (importación, exportación, tránsito) y sus requisitos.', videoUrl: 'https://www.youtube.com/embed/video34_ejemplo' },
-                    { title: 'Valoración Aduanera y Aranceles', description: 'Cálculo de impuestos y derechos aduaneros sobre mercancías.', videoUrl: 'https://www.youtube.com/embed/video35_ejemplo' }
+                    { title: 'Regímenes Aduaneros', description: 'Clases de regímenes (importación, exportación, tránsito) y sus requisitos.', videoUrl: 'https://www.youtube.com/embed/E-0w_2jE_Xo' },
+                    { title: 'Valoración Aduanera y Aranceles', description: 'Cálculo de impuestos y derechos aduaneros sobre mercancías.', videoUrl: 'https://www.youtube.com/embed/M_n-iB6K0S8' }
                 ],
                 progress: 0
             },
@@ -459,8 +462,8 @@
                 description: 'Protección de obras, invenciones, marcas y patentes.',
                 category: 'Derecho Especial',
                 modules: [
-                    { title: 'Derechos de Autor y Conexos', description: 'Protección de creaciones literarias, artísticas y científicas.', videoUrl: 'https://www.youtube.com/embed/video36_ejemplo' },
-                    { title: 'Propiedad Industrial: Marcas y Patentes', description: 'Registro y defensa de signos distintivos e invenciones tecnológicas.', videoUrl: 'https://www.youtube.com/embed/video37_ejemplo' }
+                    { title: 'Derechos de Autor y Conexos', description: 'Protección de creaciones literarias, artísticas y científicas.', videoUrl: 'https://www.youtube.com/embed/Nn-FmS772k8' },
+                    { title: 'Propiedad Industrial: Marcas y Patentes', description: 'Registro y defensa de signos distintivos e invenciones tecnológicas.', videoUrl: 'https://www.youtube.com/embed/s37L392y10s' }
                 ],
                 progress: 0
             }
@@ -475,7 +478,7 @@
         const modalCourseTitle = document.getElementById('modalCourseTitle');
         const modalCourseDescription = document.getElementById('modalCourseDescription');
         const modulesList = document.getElementById('modulesList');
-        const youtubePlayer = document.getElementById('youtubePlayer');
+        const youtubePlayer = document.getElementById('youtubePlayer'); // Referencia al iframe
         const currentModuleTitle = document.getElementById('currentModuleTitle');
         const currentModuleDescription = document.getElementById('currentModuleDescription');
 
@@ -618,9 +621,9 @@
 
             currentModuleIndex = index;
             const module = currentCourseModules[index];
-            youtubePlayer.src = module.videoUrl + "?autoplay=1"; // Añadir autoplay
+            // Asegúrate de que la URL de YouTube sea de embed y pase el parámetro autoplay
+            youtubePlayer.src = module.videoUrl + "?autoplay=1"; 
             currentModuleTitle.textContent = module.title;
-            // Now, display the description of the current module
             currentModuleDescription.textContent = module.description; 
 
             // Actualizar clase activa en la lista de módulos
